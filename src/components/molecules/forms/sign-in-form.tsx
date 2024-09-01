@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription} from '@/components/ui/form'
 import { Button, TextField } from '@radix-ui/themes'
+import axios from 'axios'
 
 const formSchema = z.object({
     email: z.string().email({message: 'Invalid email address'}).max(50, {message: 'Maximum character limit reached'}),
@@ -21,9 +22,20 @@ export default function SignInForm(){
         }
     })
 
-    const onSubmit = (values: z.infer<typeof formSchema>)=>{
-        console.log(values)
-        form.reset()
+    const onSubmit = async (values: z.infer<typeof formSchema>)=>{
+        axios.post('http://localhost:8000/login', values, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+        .then((data) => {
+            console.log('we are here')
+            console.log(data.data)
+            form.reset()
+        })
+        .catch((err) => console.log(err))
+        
+       
     }
     return(
         <Form {...form}>
