@@ -27,9 +27,8 @@ export default function SignInForm(){
     const router = useRouter()
 
     const onSubmit = async (values: z.infer<typeof formSchema>)=>{
-        axiosClient.post('http://localhost:8000/login', values)
+        axiosClient.post('login', values)
         .then((data) => {
-            console.log(data.data)
             localStorage.setItem('token', data.data.token)
             form.reset()
             router.push('/')
