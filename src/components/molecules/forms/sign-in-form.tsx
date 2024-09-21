@@ -6,9 +6,11 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription} from '@/components/ui/form'
 import { Button, TextField } from '@radix-ui/themes'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import axiosClient from '@/utils/axios-client'
 
 const formSchema = z.object({
-    email: z.string().email({message: 'Invalid email address'}).max(50, {message: 'Maximum character limit reached'}),
+    email: z.string({required_error: 'Email is required'}).email().max(50, {message: 'Maximum character limit reached'}),
     password: z.string().min(1, {message: 'Password is required'})
 })
 
@@ -22,16 +24,15 @@ export default function SignInForm(){
         }
     })
 
+    const router = useRouter()
+
     const onSubmit = async (values: z.infer<typeof formSchema>)=>{
-        axios.post('http://localhost:8000/login', values, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
+        axiosClient.post('http://localhost:8000/login', values)
         .then((data) => {
-            console.log('we are here')
             console.log(data.data)
+            localStorage.setItem('token', data.data.token)
             form.reset()
+            router.push('/')
         })
         .catch((err) => console.log(err))
         
