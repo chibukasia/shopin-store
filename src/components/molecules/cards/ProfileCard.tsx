@@ -28,6 +28,7 @@ const ProfileCard = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={()=>alert('Profile')}>Profile</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=>alert('Settings')}>Settings</DropdownMenuItem>
               <DropdownMenuItem onClick={onLogout} className="gap-3">Logout <MdLogout />
               </DropdownMenuItem>
             </DropdownMenuContent>

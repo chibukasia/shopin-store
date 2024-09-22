@@ -1,4 +1,4 @@
-import SignInForm from "@/components/molecules/forms/sign-in-form";
+import SignInForm from "@/screens/auth/sign-in-form";
 import { Heading } from "@radix-ui/themes";
 import React from "react";
 
@@ -16,3 +16,4 @@ export default function SigninPage(){
         </div>
     )
 }
+
