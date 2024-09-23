@@ -10,6 +10,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { createUser } from "../api";
 import { useRouter, usePathname } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 const userSchema = z.object({
   firstName: z.string({ required_error: "First name is required" }),
@@ -130,6 +131,11 @@ const CreateUserScreen = () => {
           </div>
         </form>
       </Form>
+      <div onClick={() =>router.back()} className="sm:w-full md:w-1/2 lg:w-1/3 pt-10 flex items-center cursor-pointer">
+        <ArrowLeft />
+        <p>Back</p>
+      </div>
+      
     </div>
   );
 };

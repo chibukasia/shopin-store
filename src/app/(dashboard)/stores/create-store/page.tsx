@@ -1,7 +1,9 @@
+import CreateStoreScreen from "@/screens/stores/forms/CreateStore"
+
 const CreateStore = () => {
     return(
         <div>
-            <p>Create store</p>
+            <CreateStoreScreen />
         </div>
     )
 }
