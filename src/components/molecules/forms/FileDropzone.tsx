@@ -12,14 +12,20 @@ import Dropzone from "react-dropzone";
 import { Control } from "react-hook-form";
 import { MdCloudUpload } from "react-icons/md";
 
-interface FDropzoneProps extends InputProps {
+interface FDropzoneProps {
+  accept?: {
+    [key: string]: string[];
+  };
   control: Control;
   label: string;
   name: string;
   description?: string;
+  maxFiles?: number
+  multiple?: boolean
+  setAcceptedFiles: (acceptedFiles: FileList ) => void;
 }
 const FileDropzone = (props: FDropzoneProps) => {
-  const { name, control, label, description } = props;
+  const { name, control, label, description, setAcceptedFiles, accept, maxFiles, multiple } = props;
 
   return (
     <FormField
@@ -29,9 +35,17 @@ const FileDropzone = (props: FDropzoneProps) => {
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+            <Dropzone
+              onDrop={(acceptedFiles) => setAcceptedFiles(acceptedFiles as unknown as FileList)}
+              accept={accept}
+              maxFiles={maxFiles}
+              multiple={multiple}
+            >
               {({ getRootProps, getInputProps }) => (
-                <section {...getRootProps()} className="flex bg-muted rounded-xl p-4 items-center justify-center border-4 border-dashed">
+                <section
+                  {...getRootProps()}
+                  className="flex bg-muted rounded-xl p-4 items-center justify-center border-4 border-dashed"
+                >
                   <div>
                     <div className="flex justify-center">
                       <MdCloudUpload
@@ -39,7 +53,7 @@ const FileDropzone = (props: FDropzoneProps) => {
                         className="bg-muted text-gray-300"
                       />
                     </div>
-                    <div >
+                    <div>
                       <input {...getInputProps()} {...field} />
                       <p>
                         Drag &apos;n&apos; drop some files here, or click to
@@ -52,7 +66,7 @@ const FileDropzone = (props: FDropzoneProps) => {
             </Dropzone>
           </FormControl>
           <FormDescription>{description}</FormDescription>
-          <FormMessage />
+          <FormMessage className="text-xs"/>
         </FormItem>
       )}
     />

@@ -24,7 +24,7 @@ const FormTextarea = (props: FITextAreaProps) => {
                 <FormDescription>
                     {description}
                 </FormDescription>
-                <FormMessage />
+                <FormMessage className="text-xs"/>
             </FormItem>
         )}
         />
