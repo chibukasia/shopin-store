@@ -13,9 +13,9 @@ import { z } from "zod";
 const storeSchema = z.object({
     store_name: z.string({required_error: 'Store name required'}).min(3, {message: 'Store name too short'}).max(50, {message: 'Store name too long'}),
     country: z.string({required_error: 'Country required'}),
-    logo: z.string({required_error: 'Provide logo url'}),
+    logo: z.instanceof(FileList, {message: 'Store logo is required'}).optional(),
     description: z.string({required_error: 'Store description is required'}).min(50, {message: 'Store description too short'}),
-    documents: z.string({required_error: 'Upload at least one of legal document'}).array()
+    documents: z.instanceof(FileList, {message: 'Upload at least one dociment'}).optional()
 
 })
 const CreateStoreScreen = () => {
