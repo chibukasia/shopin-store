@@ -9,23 +9,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { storage } from "@/lib/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import uploadFile from "@/utils";
 
 const storeSchema = z.object({
-    store_name: z.string({required_error: 'Store name required'}).min(3, {message: 'Store name too short'}).max(50, {message: 'Store name too long'}),
-    country: z.string({required_error: 'Country required'}),
-    logo: z.instanceof(FileList, {message: 'Store logo is required'}).optional(),
-    description: z.string({required_error: 'Store description is required'}).min(50, {message: 'Store description too short'}),
-    documents: z.instanceof(FileList, {message: 'Upload at least one dociment'}).optional()
-
-})
+  store_name: z
+    .string({ required_error: "Store name required" })
+    .min(3, { message: "Store name too short" })
+    .max(50, { message: "Store name too long" }),
+  country: z.string({ required_error: "Country required" }),
+  logo: z
+    .instanceof(FileList, { message: "Store logo is required" })
+    .optional(),
+  description: z
+    .string({ required_error: "Store description is required" })
+    .min(50, { message: "Store description too short" }),
+  documents: z
+    .instanceof(FileList, { message: "Upload at least one dociment" })
+    .optional(),
+});
 const CreateStoreScreen = () => {
   const [selectedLogo, setSelectedLogo] = useState<FileList>();
   const [selectedFiles, setSelectedFiles] = useState<FileList>();
   const form = useForm({
-    resolver: zodResolver(storeSchema)
+    resolver: zodResolver(storeSchema),
   });
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    if (!selectedLogo) return
+    const url = await uploadFile(selectedLogo)
+    console.log(url)
   };
 
   return (
@@ -58,25 +71,29 @@ const CreateStoreScreen = () => {
           />
           <div>
             <FileDropzone
-                control={form.control}
-                name="logo"
-                label="Store Logo"
-                setAcceptedFiles={setSelectedLogo}
-                multiple={false}
-                accept={{'image/png': ['.png', '.jpeg', '.jpg'],}}
+              control={form.control}
+              name="logo"
+              label="Store Logo"
+              setAcceptedFiles={setSelectedLogo}
+              multiple={false}
+              accept={{ "image/png": [".png", ".jpeg", ".jpg"] }}
             />
             {selectedLogo && selectedLogo[0].name}
           </div>
-          
+
           <FileDropzone
             control={form.control}
             name="documents"
             label="Other Documents"
             setAcceptedFiles={setSelectedFiles}
-            accept={{'application/pdf': ['.pdf'],}}
+            accept={{ "application/pdf": [".pdf"] }}
           />
 
-          <ActionButton title="Create Store" type="submit" loaderText="Creating store..."/>
+          <ActionButton
+            title="Create Store"
+            type="submit"
+            loaderText="Creating store..."
+          />
         </form>
       </Form>
     </div>
