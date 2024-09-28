@@ -1,5 +1,6 @@
 'use client'
 import ActionButton from "@/components/atoms/buttons/ActionButton"
+import UsersScreen from "@/screens/users"
 import { useRouter } from "next/navigation"
 
 const Users = () => {
@@ -10,6 +11,7 @@ const Users = () => {
                 <h2 className="text-2xl font-bold">All Users</h2>
                 <ActionButton title="Create New User" onClick={() => router.push('/users/create-user/')}/>
             </div>
+            <UsersScreen />
         </main>
     )
 }

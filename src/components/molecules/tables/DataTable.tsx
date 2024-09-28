@@ -49,7 +49,7 @@ export default function DataTable <TData, TValue> ({columns, data}: DataTablePro
                     ))
                 ):(
                     <TableRow>
-                        <TableCell colSpan={columns.length} className="h-24 text-center"></TableCell>
+                        <TableCell colSpan={columns.length} className="h-20 text-center">No Results</TableCell>
                     </TableRow>
                 )}
             </TableBody>
