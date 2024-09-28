@@ -9,9 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { storage } from "@/lib/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import uploadFile from "@/utils";
+import { createStore } from "../api";
+import { useRouter } from "next/navigation";
 
 const storeSchema = z.object({
   store_name: z
@@ -31,14 +31,46 @@ const storeSchema = z.object({
 });
 const CreateStoreScreen = () => {
   const [selectedLogo, setSelectedLogo] = useState<FileList>();
-  const [selectedFiles, setSelectedFiles] = useState<FileList>();
+  const [regCert, setRegCert] = useState<FileList>();
+  const [uploading, setUploading] = useState<boolean>(false);
+
   const form = useForm({
     resolver: zodResolver(storeSchema),
   });
+
+  const router = useRouter()
   const onSubmit = async (data: any) => {
-    if (!selectedLogo) return
-    const url = await uploadFile(selectedLogo)
-    console.log(url)
+    setUploading(true);
+    if (!selectedLogo || !regCert) return;
+    const logo_url = await uploadFile(selectedLogo);
+    const reg_cert_url = await uploadFile(regCert);
+
+    if (logo_url && reg_cert_url) {
+      
+      const formData = {
+        ...data,
+        logo: logo_url,
+        documents: [reg_cert_url],
+      };
+
+      createStore(formData).then((data) =>{
+        router.push('/stores')
+      }).catch(error=>{
+        if (error.response) {
+          if (error.response.status === 401) {
+            // alert(pathname)
+            router.push("/signin");
+            return;
+          }
+
+          console.log(error);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+      }).finally(() => setUploading(false))
+    }
   };
 
   return (
@@ -80,19 +112,24 @@ const CreateStoreScreen = () => {
             />
             {selectedLogo && selectedLogo[0].name}
           </div>
-
-          <FileDropzone
-            control={form.control}
-            name="documents"
-            label="Other Documents"
-            setAcceptedFiles={setSelectedFiles}
-            accept={{ "application/pdf": [".pdf"] }}
-          />
+          <div>
+            <FileDropzone
+              control={form.control}
+              name="documents"
+              label="Registration certificate or Licence"
+              description="Upload either a business registration certificate or licence"
+              multiple={false}
+              setAcceptedFiles={setRegCert}
+              accept={{ "application/pdf": [".pdf"] }}
+            />
+            <p>{regCert && regCert[0].name}</p>
+          </div>
 
           <ActionButton
             title="Create Store"
             type="submit"
             loaderText="Creating store..."
+            loading={uploading || false}
           />
         </form>
       </Form>
