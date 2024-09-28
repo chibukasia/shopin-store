@@ -8,8 +8,8 @@ const DashboardLayout = (props: { children: ReactNode }) => {
       <aside className="flex border-r bg-teal-500 sm:flex h-screen overflow-scroll">
         <SideBar />
       </aside>
-      <main className="w-full p-2 pr-4 h-screen overflow-auto">
-        <div className="flex justify-between px-6">
+      <main className="w-full py-4 px-6 h-screen overflow-auto bg-muted/90">
+        <div className="flex justify-between">
           <div>
             <h2 className="text-xl font-bold">Shopin Logo</h2>
             <p className="text-xs text-balance">

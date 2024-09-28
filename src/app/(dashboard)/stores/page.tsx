@@ -1,7 +1,9 @@
+import StoresScreen from "@/screens/stores"
+
 const Stores = () => {
     return(
-        <div>
-            <p>Stores informations</p>
+        <div className="flex min-h-screen w-full flex-col bg-muted/40">
+            <StoresScreen />
         </div>
     )
 }

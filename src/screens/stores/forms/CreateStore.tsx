@@ -74,9 +74,9 @@ const CreateStoreScreen = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="gap-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="gap-3 sm:w-full md:2/3 lg:w-1/2">
           <FormInput
             name="store_name"
             label="Store Name"

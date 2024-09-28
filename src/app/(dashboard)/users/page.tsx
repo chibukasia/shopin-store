@@ -1,6 +1,6 @@
 const Users = () => {
     return (
-        <main>
+        <main className="flex min-h-screen w-full flex-col ">
             <p>This is a users section</p>
         </main>
     )
