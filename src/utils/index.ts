@@ -1,5 +1,6 @@
 import { storage } from "@/lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const uploadFile = (selectedFile: FileList) => {
   const logoRef = ref(storage, "images/shopinn/" + selectedFile[0].name);
@@ -47,5 +48,20 @@ function getStorageErrorMessage(errorCode: string) {
       break;
     default:
       return { error: "Unknown error occurred." };
+  }
+}
+
+export const authRedirect = (router: AppRouterInstance, error: { response: { status: number; }; request: any; message: any; }) => {
+  if (error.response) {
+    if (error.response.status === 401) {
+      router.push("/signin");
+      return;
+    }
+
+    console.log(error);
+  } else if (error.request) {
+    console.log(error.request);
+  } else {
+    console.log("Error", error.message);
   }
 }

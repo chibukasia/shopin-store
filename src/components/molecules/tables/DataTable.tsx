@@ -54,9 +54,9 @@ export default function DataTable <TData, TValue> ({columns, data}: DataTablePro
                 )}
             </TableBody>
           </Table>
-          <div className='flex items-center justify-end space-x-2 py-4'>
-            <Button variant={'outline'} size={'sm'} title='Previous' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}/>
-            <Button variant={'outline'} size={'sm'} title='Next' onClick={()=> table.nextPage()} disabled={!table.getCanPreviousPage()}/>
+          <div className='flex items-center justify-center space-x-2 py-4'>
+            <Button variant={'outline'} size={'sm'} title='Previous' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>Prev</Button>
+            <Button variant={'outline'} size={'sm'} title='Next' onClick={()=> table.nextPage()} disabled={!table.getCanPreviousPage()}>Next</Button>
           </div>
         </div>
         

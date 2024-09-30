@@ -5,10 +5,14 @@ import StoreCard from "@/components/molecules/cards/StoreCard";
 import { Store } from "@/global-types";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPlus } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import ModalTemplate from "@/components/molecules/modals/ModalTemplate";
+import { authRedirect } from "@/utils";
+import EditStore from "./forms/EditStore";
 
 const StoresScreen = () => {
   const [stores, setStores] = useState<Store[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const router = useRouter();
 
@@ -20,10 +24,13 @@ const StoresScreen = () => {
       })
       .catch((error) => {
         console.log(error);
+        authRedirect(router, error)
       });
   }, []);
 
-  const handleOnStoreClick = () => {};
+  const handleOnStoreClick = () => {
+    setShowModal(true)
+  };
   const handleAddStore = () => {
     router.push("/stores/create-store/");
   };
@@ -50,6 +57,9 @@ const StoresScreen = () => {
           </CardContent>
         </Card>
       </div>
+      <ModalTemplate title="Edit Store" open={showModal} onOpenChange={setShowModal}>
+        <EditStore />
+      </ModalTemplate>
     </div>
   );
 };
