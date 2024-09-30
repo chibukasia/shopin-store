@@ -10,3 +10,8 @@ export const fetchUserStores = async (id?: string) =>{
     return response.data
 
 }
+
+export const fetchStoreDetails = async(id: string) => {
+    const response = await axiosClient.get(`/stores/${id}`)
+    return response.data
+}

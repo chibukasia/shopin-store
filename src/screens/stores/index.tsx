@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchUserStores } from "./api";
+import { fetchUserStores, fetchStoreDetails } from './api';
 import StoreCard from "@/components/molecules/cards/StoreCard";
 import { Store } from "@/global-types";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import EditStore from "./forms/EditStore";
 const StoresScreen = () => {
   const [stores, setStores] = useState<Store[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [store, setStore] = useState<Store| null>(null)
 
   const router = useRouter();
 
@@ -28,10 +29,12 @@ const StoresScreen = () => {
       });
   }, []);
 
-  const handleOnStoreClick = () => {
+  const handleOnStoreClick = async (id: string) => {
+    const storeDetails = await fetchStoreDetails(id)
+    setStore(storeDetails)
     setShowModal(true)
   };
-  const handleAddStore = () => {
+  const handleAddStore = async() => {
     router.push("/stores/create-store/");
   };
   return (
@@ -44,7 +47,7 @@ const StoresScreen = () => {
           <StoreCard
             image_url={store.logo}
             name={store.store_name}
-            onClick={handleOnStoreClick}
+            onClick={() =>handleOnStoreClick(store.id)}
           />
         ))}
         <Card
@@ -58,7 +61,7 @@ const StoresScreen = () => {
         </Card>
       </div>
       <ModalTemplate title="Edit Store" open={showModal} onOpenChange={setShowModal}>
-        <EditStore />
+        {store && <EditStore data={store}/>}
       </ModalTemplate>
     </div>
   );
