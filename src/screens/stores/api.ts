@@ -15,3 +15,8 @@ export const fetchStoreDetails = async(id: string) => {
     const response = await axiosClient.get(`/stores/${id}`)
     return response.data
 }
+
+export const updateStoreDetails = async(id: string, data: any) =>{
+    const response = await axiosClient.patch(`/stores/${id}`, data)
+    return response.data
+}

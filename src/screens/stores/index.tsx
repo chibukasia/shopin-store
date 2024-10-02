@@ -61,7 +61,7 @@ const StoresScreen = () => {
         </Card>
       </div>
       <ModalTemplate title="Edit Store" open={showModal} onOpenChange={setShowModal}>
-        {store && <EditStore data={store}/>}
+        {store && <EditStore data={store} setShowModal={setShowModal}/>}
       </ModalTemplate>
     </div>
   );

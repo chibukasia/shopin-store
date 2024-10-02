@@ -5,11 +5,13 @@ import FormSelect from "@/components/molecules/forms/FormSelect";
 import FormTextarea from "@/components/molecules/forms/FormTextArea";
 import { Form } from "@/components/ui/form";
 import { Store } from "@/global-types";
+import uploadFile from "@/utils";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { fetchUserStores, updateStoreDetails } from "../api";
 
-const EditStore = (props: { data: Store }) => {
+const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void }) => {
   const [selectedLogo, setSelectedLogo] = useState<FileList>();
   const [regCert, setRegCert] = useState<FileList>();
   const [uploading, setUploading] = useState<boolean>(false);
@@ -21,8 +23,29 @@ const EditStore = (props: { data: Store }) => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(selectedLogo);
+  const onSubmit = async (data: any) => {
+    setUploading(true)
+    let logo_url
+    let cert_url
+    if(selectedLogo){
+      const logo = await uploadFile(selectedLogo)
+      logo_url = logo
+    }
+    
+    if(regCert){
+      const url = await uploadFile(regCert)
+      cert_url = url
+    }
+
+    const formData = {
+      ...data,
+      logo: logo_url ?? props.data.logo,
+      documents: cert_url ? [cert_url]: [props.data.documents[0]]
+    }
+    updateStoreDetails(props.data.id, formData).then(() =>{
+      fetchUserStores()
+      props.setShowModal(false)
+    }).catch(error=> console.log(error)).finally(() =>setUploading(false))
   };
 
   if (!props.data) return <p>Loading... </p>;
