@@ -27,13 +27,14 @@ const StoresScreen = () => {
         console.log(error);
         authRedirect(router, error)
       });
-  }, []);
+  }, [showModal]);
 
   const handleOnStoreClick = async (id: string) => {
     const storeDetails = await fetchStoreDetails(id)
     setStore(storeDetails)
     setShowModal(true)
   };
+
   const handleAddStore = async() => {
     router.push("/stores/create-store/");
   };

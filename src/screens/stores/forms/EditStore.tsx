@@ -9,7 +9,7 @@ import uploadFile from "@/utils";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { fetchUserStores, updateStoreDetails } from "../api";
+import { updateStoreDetails } from "../api";
 
 const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void }) => {
   const [selectedLogo, setSelectedLogo] = useState<FileList>();
@@ -43,7 +43,6 @@ const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void })
       documents: cert_url ? [cert_url]: [props.data.documents[0]]
     }
     updateStoreDetails(props.data.id, formData).then(() =>{
-      fetchUserStores()
       props.setShowModal(false)
     }).catch(error=> console.log(error)).finally(() =>setUploading(false))
   };
