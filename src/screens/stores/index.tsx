@@ -1,20 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchUserStores, fetchStoreDetails } from './api';
+import { fetchUserStores } from './api';
 import StoreCard from "@/components/molecules/cards/StoreCard";
 import { Store } from "@/global-types";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPlus } from "react-icons/fa";
-import { redirect, useRouter } from "next/navigation";
-import ModalTemplate from "@/components/molecules/modals/ModalTemplate";
+import { useRouter } from "next/navigation";
 import { authRedirect } from "@/utils";
-import EditStore from "./forms/EditStore";
 
 const StoresScreen = () => {
   const [stores, setStores] = useState<Store[]>([]);
-  const [showModal, setShowModal] = useState<boolean>(false)
-  const [store, setStore] = useState<Store| null>(null)
-
   const router = useRouter();
 
   useEffect(() => {
@@ -27,12 +22,10 @@ const StoresScreen = () => {
         console.log(error);
         authRedirect(router, error)
       });
-  }, [showModal]);
+  }, []);
 
   const handleOnStoreClick = async (id: string) => {
-    const storeDetails = await fetchStoreDetails(id)
-    setStore(storeDetails)
-    setShowModal(true)
+    router.push(`/stores/${id}`)
   };
 
   const handleAddStore = async() => {
@@ -61,9 +54,7 @@ const StoresScreen = () => {
           </CardContent>
         </Card>
       </div>
-      <ModalTemplate title="Edit Store" open={showModal} onOpenChange={setShowModal}>
-        {store && <EditStore data={store} setShowModal={setShowModal}/>}
-      </ModalTemplate>
+      
     </div>
   );
 };
