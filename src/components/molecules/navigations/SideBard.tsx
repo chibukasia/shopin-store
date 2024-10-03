@@ -41,7 +41,7 @@ const menuItems = [
   },
   {
     name: "Branches",
-    link: "/branches",
+    link: "/store-branches",
     icon: <MdOutlineLocalConvenienceStore size={32} />,
   },
 ];
