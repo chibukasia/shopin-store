@@ -11,6 +11,9 @@ import { z } from "zod";
 import { createUser } from "../api";
 import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EUser } from "@/utils/entities";
+import { authRedirect } from "@/utils";
 
 const userSchema = z.object({
   firstName: z.string({ required_error: "First name is required" }),
@@ -33,52 +36,43 @@ const roles = [
   },
 ];
 const CreateUserScreen = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const form = useForm({
+  const form = useForm<User>({
     resolver: zodResolver(userSchema),
   });
   const formRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient()
+
+  const {mutate, isPending, isError, error} = useMutation({
+    mutationKey: ['user'],
+    mutationFn: (user: EUser) => createUser(user),
+    onSuccess(){
+      queryClient.invalidateQueries({queryKey: ['user', 'users']})
+      router.push("/users");
+    },
+    onError(error: any){
+      console.log(error)
+      authRedirect(router, error)
+    }
+  })
 
   const handleSubmit = (data: User) => {
-    setLoading(true);
-    createUser({
+    mutate({
       name: `${data.firstName} ${data.lastName}`,
       email: data.email,
       role: data.role,
       password: data.password,
     })
-      .then((data) => {
-        console.log(data);
-        router.push("/users");
-      })
-      .catch((error) => {
-        if (error.response) {
-          if (error.response.status === 401) {
-            // alert(pathname)
-            router.push("/signin");
-            return;
-          }
-
-          console.log(error);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-      })
-      .finally(() => setLoading(false));
   };
   return (
     <div className="flex flex-col justify-center items-center pt-8">
+      {isError && <p>Could not create user</p>}
       <h2 className="text-xl text-center pb-5 font-semibold">
         Create New User
       </h2>
       <Form {...form}>
         <form
-          // @ts-expect-error hookform type issues
           onSubmit={form.handleSubmit(handleSubmit)}
           className="sm:w-full md:w-1/2 lg:w-1/3"
           ref={formRef}
@@ -125,7 +119,7 @@ const CreateUserScreen = () => {
           <div>
             <ActionButton
               title="Create user"
-              loading={loading}
+              loading={isPending}
               loaderText="Creating User..."
             />
           </div>

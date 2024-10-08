@@ -16,7 +16,7 @@ interface FDropzoneProps {
   accept?: {
     [key: string]: string[];
   };
-  control: Control;
+  control: Control<any>;
   label: string;
   name: string;
   description?: string;

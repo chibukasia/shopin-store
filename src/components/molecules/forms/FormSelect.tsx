@@ -7,7 +7,7 @@ interface FormSelectProps extends InputProps {
     name: string
     label: string
     description?: string
-    control: Control
+    control: Control<any>
     items: {
         label: string
         value: string

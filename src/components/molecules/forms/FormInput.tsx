@@ -7,7 +7,7 @@ interface FormIputProps extends InputProps {
     name: string
     label: string
     description?: string
-    control: Control
+    control: Control<any>
 }
 const FormInput = (props: FormIputProps) => {
     const {name, label, placeholder,description, control, type} = props

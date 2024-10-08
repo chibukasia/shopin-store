@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Control } from "react-hook-form";
 
 interface FITextAreaProps extends InputProps {
-    control: Control
+    control: Control<any>
     label: string
     name: string
     description?: string

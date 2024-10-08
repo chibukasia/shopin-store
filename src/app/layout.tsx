@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
-import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import ReactQueryProvider from "@/lib/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,20 +17,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient()
 
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-        <Theme
-          accentColor="mint"
-          grayColor="gray"
-          panelBackground="solid"
-          scaling="100%"
-          radius="full"
-        >   
-            {children}
-        </Theme>
+        <ReactQueryProvider>
+          <Theme
+            accentColor="mint"
+            grayColor="gray"
+            panelBackground="solid"
+            scaling="100%"
+            radius="full"
+          >   
+              {children}
+          </Theme>
+        </ReactQueryProvider>
       </body>
     </html>
   );

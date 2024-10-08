@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchStoreDetails } from "./api";
 import { Store } from "@/global-types";
@@ -16,27 +16,33 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { authRedirect } from "@/utils";
 
 const StoreDetailsScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [store, setStore] = useState<Store | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const params = useParams();
-  useEffect(() => {
-    setLoading(true);
-    fetchStoreDetails(params.id as string)
-      .then((data) => {
-        setStore(data);
-      })
-      .catch(console.log)
-      .finally(() => setLoading(false));
-  }, [params.id, showModal]);
+  const router = useRouter();
 
+  const {
+    data: store,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["store-details", showModal],
+    queryFn: () => fetchStoreDetails(params.id as string),
+  });
   const onEditStoreClick = () => {
     setShowModal(true);
   };
-  if (loading || !store) return <p>Loading...</p>;
+  if (isError) {
+    authRedirect(router, error as any);
+    return;
+  }
+  if (isLoading || !store) return <p>Loading...</p>;
 
   return (
     <div className="space-y-4 py-3">

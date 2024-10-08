@@ -9,9 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import uploadFile from "@/utils";
+import uploadFile, { authRedirect } from "@/utils";
 import { createStore } from "../api";
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const storeSchema = z.object({
   store_name: z
@@ -39,6 +40,20 @@ const CreateStoreScreen = () => {
   });
 
   const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const {mutate, isPending, isError, error} = useMutation({
+    mutationKey: ['store'],
+    mutationFn: (data) => createStore(data),
+    onSuccess(){
+      queryClient.invalidateQueries({queryKey: ['stores', 'store']})
+      router.push('/stores')
+    },
+    onError(error){
+      console.log(error);
+      authRedirect(router, error as any)
+    }
+  })
   const onSubmit = async (data: any) => {
     setUploading(true);
     if (!selectedLogo || !regCert) return;
@@ -53,28 +68,13 @@ const CreateStoreScreen = () => {
         documents: [reg_cert_url],
       };
 
-      createStore(formData).then((data) =>{
-        router.push('/stores')
-      }).catch(error=>{
-        if (error.response) {
-          if (error.response.status === 401) {
-            // alert(pathname)
-            router.push("/signin");
-            return;
-          }
-
-          console.log(error);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-      }).finally(() => setUploading(false))
+      mutate(formData)
     }
   };
 
   return (
     <div className="flex flex-col justify-center items-center">
+      {isError && <p>Could not create store</p>}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="gap-3 sm:w-full md:2/3 lg:w-1/2">
           <FormInput
@@ -129,7 +129,7 @@ const CreateStoreScreen = () => {
             title="Create Store"
             type="submit"
             loaderText="Creating store..."
-            loading={uploading || false}
+            loading={uploading || isPending}
           />
         </form>
       </Form>

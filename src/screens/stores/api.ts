@@ -1,3 +1,4 @@
+import { Store } from "@/global-types";
 import axiosClient from "@/utils/axios-client";
 
 export const createStore = async (data: any) =>{
@@ -6,7 +7,7 @@ export const createStore = async (data: any) =>{
 }
 
 export const fetchUserStores = async (id?: string) =>{
-    const response = await axiosClient.get(`/stores/user-stores/${id}`)
+    const response = await axiosClient.get<Store[]>(`/stores/user-stores/${id}`)
     return response.data
 
 }

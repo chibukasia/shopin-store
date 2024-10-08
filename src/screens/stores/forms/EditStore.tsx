@@ -5,16 +5,20 @@ import FormSelect from "@/components/molecules/forms/FormSelect";
 import FormTextarea from "@/components/molecules/forms/FormTextArea";
 import { Form } from "@/components/ui/form";
 import { Store } from "@/global-types";
-import uploadFile from "@/utils";
+import uploadFile, { authRedirect } from "@/utils";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { updateStoreDetails } from "../api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void }) => {
   const [selectedLogo, setSelectedLogo] = useState<FileList>();
   const [regCert, setRegCert] = useState<FileList>();
   const [uploading, setUploading] = useState<boolean>(false);
+  
+  const queryClient = useQueryClient()
+
   const form = useForm<FieldValues>({
     defaultValues: {
       store_name: props.data.store_name,
@@ -23,6 +27,20 @@ const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void })
     },
   });
 
+  const {mutate, isPending, isError, error} = useMutation({
+    mutationKey: ['store-details', props.data.id],
+    mutationFn: (data: any) => updateStoreDetails(data.id, data.data),
+    onSuccess(){
+      queryClient.invalidateQueries({queryKey: ['store-details', 'stores', props.data.id,]})
+      setUploading(false)
+      props.setShowModal(false)
+    },
+    onError(error: any){
+      console.log(error)
+      setUploading(false)
+      alert('Could not update store')
+    }
+  })
   const onSubmit = async (data: any) => {
     setUploading(true)
     let logo_url
@@ -42,14 +60,13 @@ const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void })
       logo: logo_url ?? props.data.logo,
       documents: cert_url ? [cert_url]: [props.data.documents[0]]
     }
-    updateStoreDetails(props.data.id, formData).then(() =>{
-      props.setShowModal(false)
-    }).catch(error=> console.log(error)).finally(() =>setUploading(false))
+    mutate({id: props.data.id, data: formData})
   };
 
   if (!props.data) return <p>Loading... </p>;
   return (
     <div>
+      {isError && <p>Could not update store details</p>}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="gap-3 ">
           <FormInput
@@ -108,7 +125,7 @@ const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void })
             title="Edit Store"
             type="submit"
             loaderText="Edititng store..."
-            loading={uploading || false}
+            loading={uploading || isPending }
           />
         </form>
       </Form>
