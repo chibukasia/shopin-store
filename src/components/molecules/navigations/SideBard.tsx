@@ -5,24 +5,19 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import {
-  Package2,
-  Home,
-  ShoppingCart,
-  Package,
-  Users2,
-  LineChart,
-  Settings,
-  Key,
-} from "lucide-react";
+import { authRedirect } from "@/utils";
+import axiosClient from "@/utils/axios-client";
+import { Package2, Settings } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   MdDashboard,
   MdStore,
   MdOutlineLocalConvenienceStore,
   MdPeopleAlt,
 } from "react-icons/md";
+
 const menuItems = [
   {
     name: "Dashboard",
@@ -50,6 +45,14 @@ const SideBar = () => {
   const onCollapse = () => {
     setCollapse((prev) => !prev);
   };
+
+  const router = useRouter()
+
+  useEffect(() =>{
+    axiosClient.get('/login/me').then((data) => console.log(data.data)).catch((error) => {
+      authRedirect(router, error)
+    })
+  },[])
   return (
     <div className="h-full">
       <div className="pt-2">

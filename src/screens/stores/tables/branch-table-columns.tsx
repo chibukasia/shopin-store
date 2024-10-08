@@ -1,3 +1,4 @@
+import DataTableHeaderColumn from "@/components/molecules/tables/DataTableColumnHaeder";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
@@ -12,19 +13,27 @@ interface StoreBranchData {
 export const storeBranchesTableColumns: ColumnDef<StoreBranchData>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Name"/>
+    ),
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Location"/>
+    ),
   },
   {
     accessorKey: "users",
-    header: "Users",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Users"/>
+    ),
   },
   {
     id: "edit",
-    header: "Action",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Actions"/>
+    ),
     cell: ({ row }) => {
       const onEditClick = () => {
         // add edit logic

@@ -1,3 +1,4 @@
+import DataTableHeaderColumn from "@/components/molecules/tables/DataTableColumnHaeder";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface UserTableColumns{
@@ -10,14 +11,20 @@ interface UserTableColumns{
 export const userColumns: ColumnDef<UserTableColumns>[] = [
     {
         accessorKey: 'name',
-        header: 'Name'
+        header: ({column}) =>(
+            <DataTableHeaderColumn column={column} title="Name"/>
+          ),
     },
     {
         accessorKey: "email",
-        header: "Email"
+        header: ({column}) =>(
+            <DataTableHeaderColumn column={column} title="Email"/>
+          ),
     },
     {
         accessorKey: 'role',
-        header: 'Role',
+        header: ({column}) =>(
+            <DataTableHeaderColumn column={column} title="Role"/>
+          ),
     }
 ]
