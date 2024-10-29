@@ -21,18 +21,18 @@ const storeSchema = z.object({
     .max(50, { message: "Store name too long" }),
   country: z.string({ required_error: "Country required" }),
   logo: z
-    .instanceof(FileList, { message: "Store logo is required" })
+    .instanceof(File, { message: "Store logo is required" })
     .optional(),
   description: z
     .string({ required_error: "Store description is required" })
     .min(50, { message: "Store description too short" }),
   documents: z
-    .instanceof(FileList, { message: "Upload at least one dociment" })
+    .instanceof(File, { message: "Upload at least one dociment" })
     .optional(),
 });
 const CreateStoreScreen = () => {
-  const [selectedLogo, setSelectedLogo] = useState<FileList>();
-  const [regCert, setRegCert] = useState<FileList>();
+  const [selectedLogo, setSelectedLogo] = useState<File[]>();
+  const [regCert, setRegCert] = useState<File[]>();
   const [uploading, setUploading] = useState<boolean>(false);
 
   const form = useForm({

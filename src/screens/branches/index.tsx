@@ -47,7 +47,8 @@ const BranchesScreen = () => {
             open={showModal}
             onOpenChange={setShowModal}
           >
-            <EditStore data={sampleBranch} setShowModal={setShowModal} />
+            <p>To be edited</p>
+            {/* <EditStore data={sampleBranch} setShowModal={setShowModal} /> */}
           </ModalTemplate>
         </div>
         <div className="space-y-3">

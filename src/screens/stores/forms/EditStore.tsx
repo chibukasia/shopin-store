@@ -13,8 +13,8 @@ import { updateStoreDetails } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void }) => {
-  const [selectedLogo, setSelectedLogo] = useState<FileList>();
-  const [regCert, setRegCert] = useState<FileList>();
+  const [selectedLogo, setSelectedLogo] = useState<File[]>();
+  const [regCert, setRegCert] = useState<File[]>();
   const [uploading, setUploading] = useState<boolean>(false);
   
   const queryClient = useQueryClient()

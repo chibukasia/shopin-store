@@ -7,7 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { InputProps } from "@/components/ui/input";
 import Dropzone from "react-dropzone";
 import { Control } from "react-hook-form";
 import { MdCloudUpload } from "react-icons/md";
@@ -22,7 +21,7 @@ interface FDropzoneProps {
   description?: string;
   maxFiles?: number
   multiple?: boolean
-  setAcceptedFiles: (acceptedFiles: FileList ) => void;
+  setAcceptedFiles: (acceptedFiles: File[] ) => void;
 }
 const FileDropzone = (props: FDropzoneProps) => {
   const { name, control, label, description, setAcceptedFiles, accept, maxFiles, multiple } = props;
@@ -36,7 +35,7 @@ const FileDropzone = (props: FDropzoneProps) => {
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Dropzone
-              onDrop={(acceptedFiles) => setAcceptedFiles(acceptedFiles as unknown as FileList)}
+              onDrop={(acceptedFiles) => setAcceptedFiles(acceptedFiles as unknown as File[])}
               accept={accept}
               maxFiles={maxFiles}
               multiple={multiple}

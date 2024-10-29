@@ -2,17 +2,18 @@ import { storage } from "@/lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-const uploadFile = (selectedFile: FileList) => {
+const uploadFile = async (selectedFile: File[]) => {
   const logoRef = ref(storage, "images/shopinn/" + selectedFile[0].name);
-  return uploadBytes(logoRef, selectedFile[0], {
-    contentType: "image/jpeg",
-  })
-    .then(() => getDownloadURL(logoRef))
-    .then((url) => url)
-    .catch((error) => {
-      console.log(error);
-      getStorageErrorMessage(error.code);
+  try {
+    await uploadBytes(logoRef, selectedFile[0], {
+      contentType: "image/jpeg",
     });
+    const url = await getDownloadURL(logoRef);
+    return url;
+  } catch (error: any) {
+    console.log(error);
+    getStorageErrorMessage(error.code);
+  }
 };
 
 export default uploadFile;
