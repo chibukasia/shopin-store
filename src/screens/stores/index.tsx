@@ -36,8 +36,9 @@ const StoresScreen = () => {
         <h2 className="text-2xl font-bold">Your Stores</h2>
       </div>
       <div className="sm:flex-col md:flex-row flex flex-wrap gap-4 sm:justify-center md:justify-start py-4">
-        {userStores.map((store) => (
+        {userStores.map((store, i) => (
           <StoreCard
+            key={i}
             image_url={store.logo}
             name={store.store_name}
             onClick={() => handleOnStoreClick(store.id)}

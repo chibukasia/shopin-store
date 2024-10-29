@@ -52,7 +52,7 @@ const SideBar = () => {
     axiosClient.get('/login/me').then((data) => console.log(data.data)).catch((error) => {
       authRedirect(router, error)
     })
-  },[])
+  },[router])
   return (
     <div className="h-full">
       <div className="pt-2">
@@ -67,7 +67,7 @@ const SideBar = () => {
           <span className="sr-only">Acme Inc</span>
         </Link>
         {menuItems.map((item) => (
-          <TooltipProvider>
+          <TooltipProvider key={item.link}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
