@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "firebase": "^10.13.2",
+    "json-server": "^1.0.0-beta.3",
     "lint": "^0.8.19",
     "lodash": "^4.17.21",
     "lucide-react": "^0.379.0",

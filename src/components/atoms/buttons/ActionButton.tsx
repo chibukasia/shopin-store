@@ -9,7 +9,7 @@ interface ActionButtonProps extends ButtonProps {
 const ActionButton = (props: ActionButtonProps) => {
   const { title, loading, loaderText, onClick, type } = props;
   return (
-    <Button disabled={loading} onClick={onClick} type={type} className="bg-teal-500">
+    <Button disabled={loading} onClick={onClick} type={type} className="bg-primary">
       {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       {loading ? loaderText : title}
     </Button>

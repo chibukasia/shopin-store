@@ -21,20 +21,24 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import DataTablePagination from "./Pagination";
+import Select from "@/components/atoms/inputs/Select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterValue?: string;
+  searchTypes?: {label: string, value: string}[]
 }
 export default function DataTable<TData, TValue>({
   columns,
   data,
   filterValue,
+  searchTypes
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [searchType, setSearchType] = useState<string>('')
 
   const table = useReactTable({
     data,
@@ -54,16 +58,18 @@ export default function DataTable<TData, TValue>({
   });
   return (
     <div className=" rounded-md border">
-      {filterValue && (
-        <div className="flex items-center p-4">
+      
+      {searchTypes && (
+        <div className="flex items-center p-4 space-x-5">
           <Input
             placeholder="Search..."
-            value={(table.getColumn(filterValue)?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn(searchType)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn(filterValue)?.setFilterValue(event.target.value)
+              table.getColumn(searchType)?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
+          <Select items={searchTypes} label="Search by" onValueChange={setSearchType}/>
         </div>
       )}
 

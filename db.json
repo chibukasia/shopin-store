@@ -1,0 +1,526 @@
+{
+  "users": [
+    {
+      "id": "u1-aabb-ccdd-eeff-0001",
+      "name": "Alice Smith",
+      "role": "store admin",
+      "branch": {
+        "id": "b1-aabb-ccdd-eeff-0001",
+        "name": "Naivas Westlands",
+        "branch_code": "NAIWEST89RT",
+        "location": "Westlands",
+        "description": "Sample branch description"
+      },
+      "email": "alice@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "01-02-2024"
+    },
+    {
+      "id": "u2-aabb-ccdd-eeff-0002",
+      "name": "Bob Johnson",
+      "role": "store admin",
+      "branch": {
+        "id": "b2-aabb-ccdd-eeff-0002",
+        "name": "Naivas Kisumu",
+        "branch_code": "NAIKISU34PL",
+        "location": "Kisumu",
+        "description": "Sample branch description"
+      },
+      "email": "bob@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "15-03-2024"
+    },
+    {
+      "id": "u3-aabb-ccdd-eeff-0003",
+      "name": "Catherine Davis",
+      "role": "store admin",
+      "branch": {
+        "id": "b3-aabb-ccdd-eeff-0003",
+        "name": "Naivas Eldoret",
+        "branch_code": "NAIELDO47XY",
+        "location": "Eldoret",
+        "description": "Sample branch description"
+      },
+      "email": "catherine@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "20-04-2024"
+    },
+    {
+      "id": "u4-aabb-ccdd-eeff-0004",
+      "name": "David Brown",
+      "role": "store admin",
+      "branch": {
+        "id": "b4-aabb-ccdd-eeff-0004",
+        "name": "Naivas Thika",
+        "branch_code": "NAITHIK56ZA",
+        "location": "Thika",
+        "description": "Sample branch description"
+      },
+      "email": "david@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "05-05-2024"
+    },
+    {
+      "id": "u5-aabb-ccdd-eeff-0005",
+      "name": "Emma Wilson",
+      "role": "store admin",
+      "branch": {
+        "id": "b5-aabb-ccdd-eeff-0005",
+        "name": "Naivas Nakuru",
+        "branch_code": "NAINAKU66BV",
+        "location": "Nakuru",
+        "description": "Sample branch description"
+      },
+      "email": "emma@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "14-06-2024"
+    },
+    {
+      "id": "u6-aabb-ccdd-eeff-0006",
+      "name": "Franklin Thomas",
+      "role": "store admin",
+      "branch": {
+        "id": "b6-aabb-ccdd-eeff-0006",
+        "name": "Naivas Mombasa",
+        "branch_code": "NAIMOMB23QW",
+        "location": "Mombasa",
+        "description": "Sample branch description"
+      },
+      "email": "franklin@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "30-06-2024"
+    },
+    {
+      "id": "u7-aabb-ccdd-eeff-0007",
+      "name": "Grace White",
+      "role": "store admin",
+      "branch": {
+        "id": "b7-aabb-ccdd-eeff-0007",
+        "name": "Naivas Nyali",
+        "branch_code": "NAINYALI13RT",
+        "location": "Nyali",
+        "description": "Sample branch description"
+      },
+      "email": "grace@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "07-07-2024"
+    },
+    {
+      "id": "u8-aabb-ccdd-eeff-0008",
+      "name": "Henry Harris",
+      "role": "store admin",
+      "branch": {
+        "id": "b8-aabb-ccdd-eeff-0008",
+        "name": "Naivas Langata",
+        "branch_code": "NAILANG18OP",
+        "location": "Langata",
+        "description": "Sample branch description"
+      },
+      "email": "henry@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "12-08-2024"
+    },
+    {
+      "id": "u9-aabb-ccdd-eeff-0009",
+      "name": "Isabella Clark",
+      "role": "store admin",
+      "branch": {
+        "id": "b9-aabb-ccdd-eeff-0009",
+        "name": "Naivas Karen",
+        "branch_code": "NAIKAREN87LP",
+        "location": "Karen",
+        "description": "Sample branch description"
+      },
+      "email": "isabella@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "09-09-2024"
+    },
+    {
+      "id": "u10-aabb-ccdd-eeff-0010",
+      "name": "Jack Lewis",
+      "role": "store admin",
+      "branch": {
+        "id": "b10-aabb-ccdd-eeff-0010",
+        "name": "Naivas Embakasi",
+        "branch_code": "NAIEMBA90UY",
+        "location": "Embakasi",
+        "description": "Sample branch description"
+      },
+      "email": "jack@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "25-09-2024"
+    },
+    {
+      "id": "u11-aabb-ccdd-eeff-0011",
+      "name": "Karen Walker",
+      "role": "store admin",
+      "branch": {
+        "id": "b11-aabb-ccdd-eeff-0011",
+        "name": "Naivas Kiserian",
+        "branch_code": "NAIKISE44DF",
+        "location": "Kiserian",
+        "description": "Sample branch description"
+      },
+      "email": "karen@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "12-10-2024"
+    },
+    {
+      "id": "u12-aabb-ccdd-eeff-0012",
+      "name": "Liam Robinson",
+      "role": "store admin",
+      "branch": {
+        "id": "b12-aabb-ccdd-eeff-0012",
+        "name": "Naivas Juja",
+        "branch_code": "NAIJUJA31HK",
+        "location": "Juja",
+        "description": "Sample branch description"
+      },
+      "email": "liam@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "03-11-2024"
+    },
+    {
+      "id": "u13-aabb-ccdd-eeff-0013",
+      "name": "Mia Young",
+      "role": "store admin",
+      "branch": {
+        "id": "b13-aabb-ccdd-eeff-0013",
+        "name": "Naivas South B",
+        "branch_code": "NAISOUT12LM",
+        "location": "South B",
+        "description": "Sample branch description"
+      },
+      "email": "mia@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "21-11-2024"
+    },
+    {
+      "id": "u14-aabb-ccdd-eeff-0014",
+      "name": "Nathan King",
+      "role": "store admin",
+      "branch": {
+        "id": "b14-aabb-ccdd-eeff-0014",
+        "name": "Naivas Ruiru",
+        "branch_code": "NAIRUIRU12GY",
+        "location": "Ruiru",
+        "description": "Sample branch description"
+      },
+      "email": "nathan@testemail.com",
+      "store": {
+        "id": "s1-aabb-ccdd-eeff-0001",
+        "name": "Naivas",
+        "country": "Kenya",
+        "description": "Sample store description"
+      },
+      "start_date": "12-12-2024"
+    }
+  ],
+  "stores": [
+    {
+      "id": "s1-1234-abcd-5678-0001",
+      "name": "Naivas",
+      "country": "Kenya",
+      "description": "Sample store description",
+      "logo": "",
+      "documents": [],
+      "branches": [
+        {
+          "id": "b1-1234-abcd-5678-0001",
+          "name": "Naivas Ruiru",
+          "branch_code": "NAIRUIRU12GY",
+          "location": "Ruiru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0002",
+          "name": "Naivas Westlands",
+          "branch_code": "NAIWEST89RT",
+          "location": "Westlands",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0003",
+          "name": "Naivas Thika",
+          "branch_code": "NAITHIK56ZA",
+          "location": "Thika",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0004",
+          "name": "Naivas Nakuru",
+          "branch_code": "NAINAKU66BV",
+          "location": "Nakuru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0005",
+          "name": "Naivas Kisumu",
+          "branch_code": "NAIKISU34PL",
+          "location": "Kisumu",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0006",
+          "name": "Naivas Langata",
+          "branch_code": "NAILANG18OP",
+          "location": "Langata",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0007",
+          "name": "Naivas Eldoret",
+          "branch_code": "NAIELDO47XY",
+          "location": "Eldoret",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0008",
+          "name": "Naivas Mombasa",
+          "branch_code": "NAIMOMB23QW",
+          "location": "Mombasa",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0009",
+          "name": "Naivas Nyali",
+          "branch_code": "NAINYALI13RT",
+          "location": "Nyali",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b1-1234-abcd-5678-0010",
+          "name": "Naivas Embakasi",
+          "branch_code": "NAIEMBA90UY",
+          "location": "Embakasi",
+          "description": "Sample branch description"
+        }
+      ]
+    },
+    {
+      "id": "s2-5678-abcd-1234-0002",
+      "name": "Quickmart",
+      "country": "Kenya",
+      "description": "Sample store description",
+      "logo": "",
+      "documents": [],
+      "branches": [
+        {
+          "id": "b2-5678-abcd-1234-0001",
+          "name": "Quickmart Ruiru",
+          "branch_code": "QMRUIRU90ZZ",
+          "location": "Ruiru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0002",
+          "name": "Quickmart Westlands",
+          "branch_code": "QMWEST45AA",
+          "location": "Westlands",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0003",
+          "name": "Quickmart Thika",
+          "branch_code": "QMTHIKA12BB",
+          "location": "Thika",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0004",
+          "name": "Quickmart Nakuru",
+          "branch_code": "QMNKU23CC",
+          "location": "Nakuru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0005",
+          "name": "Quickmart Kisumu",
+          "branch_code": "QMKSM78DD",
+          "location": "Kisumu",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0006",
+          "name": "Quickmart Langata",
+          "branch_code": "QMLANG34EE",
+          "location": "Langata",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0007",
+          "name": "Quickmart Eldoret",
+          "branch_code": "QMELDO56FF",
+          "location": "Eldoret",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0008",
+          "name": "Quickmart Mombasa",
+          "branch_code": "QMMBS67GG",
+          "location": "Mombasa",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0009",
+          "name": "Quickmart Nyali",
+          "branch_code": "QMNYALI89HH",
+          "location": "Nyali",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b2-5678-abcd-1234-0010",
+          "name": "Quickmart Embakasi",
+          "branch_code": "QMEMBA56JJ",
+          "location": "Embakasi",
+          "description": "Sample branch description"
+        }
+      ]
+    },
+    {
+      "id": "s3-4321-dcba-8765-0003",
+      "name": "Carrefour",
+      "country": "Kenya",
+      "description": "Sample store description",
+      "logo": "",
+      "documents": [],
+      "branches": [
+        {
+          "id": "b3-4321-dcba-8765-0001",
+          "name": "Carrefour Ruiru",
+          "branch_code": "CFRUIRU12XX",
+          "location": "Ruiru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0002",
+          "name": "Carrefour Westlands",
+          "branch_code": "CFWEST22YY",
+          "location": "Westlands",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0003",
+          "name": "Carrefour Thika",
+          "branch_code": "CFTHIK78ZZ",
+          "location": "Thika",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0004",
+          "name": "Carrefour Nakuru",
+          "branch_code": "CFNKU34AA",
+          "location": "Nakuru",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0005",
+          "name": "Carrefour Kisumu",
+          "branch_code": "CFKSM45BB",
+          "location": "Kisumu",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0006",
+          "name": "Carrefour Langata",
+          "branch_code": "CFLANG21CC",
+          "location": "Langata",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0007",
+          "name": "Carrefour Eldoret",
+          "branch_code": "CFELDO56DD",
+          "location": "Eldoret",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0008",
+          "name": "Carrefour Mombasa",
+          "branch_code": "CFMBS89EE",
+          "location": "Mombasa",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0009",
+          "name": "Carrefour Nyali",
+          "branch_code": "CFNYALI78FF",
+          "location": "Nyali",
+          "description": "Sample branch description"
+        },
+        {
+          "id": "b3-4321-dcba-8765-0010",
+          "name": "Carrefour Embakasi",
+          "branch_code": "CFEMBA67GG",
+          "location": "Embakasi",
+          "description": "Sample branch description"
+        }
+      ]
+    }
+  ]
+}

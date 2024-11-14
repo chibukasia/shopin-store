@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 const DashboardLayout = (props: { children: ReactNode }) => {
   return (
     <section className="flex">
-      <aside className="flex border-r bg-teal-500 sm:flex h-screen overflow-scroll">
+      <aside className="flex border-r bg-primary sm:flex h-screen overflow-scroll">
         <SideBar />
       </aside>
       <main className="w-full py-4 px-6 h-screen overflow-auto bg-muted/90">
