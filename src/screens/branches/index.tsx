@@ -1,28 +1,16 @@
 "use client"
-import ModalTemplate from "@/components/molecules/modals/ModalTemplate"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
-import EditStore from "../stores/forms/EditStore"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import StoreBranchesTable from "../stores/tables/StoreBranchesTable"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-
-const branches = [
-    { branch_name: 'Main Branch', description: 'This is the main headquarters of the company.' },
-    { branch_name: 'West Side Branch', description: 'Located on the west side, serving local businesses.' },
-    { branch_name: 'East Side Branch', description: 'Branch located on the east side, primarily serving residential areas.' },
-    { branch_name: 'Downtown Branch', description: 'Centrally located branch with high foot traffic.' },
-    { branch_name: 'Suburban Branch', description: 'Branch located in the suburbs, catering to family needs.' }
-  ];
-const sampleBranch = {
-    branch_name: 'Main Branch',
-    description: `The Main Branch is the heart of our operations, strategically located in the city center to provide access to the broadest range of services we offer. This branch operates 24/7, serving both walk-in customers and handling critical backend operations for all other branches. With over 100 employees, the branch is equipped with state-of-the-art technology and facilities, including customer service zones, corporate meeting rooms, and a full-fledged technical support center. 
-    It also hosts regular community engagement events, business seminars, and workshops, making it a cornerstone of our brand's presence in the region. Additionally, the Main Branch is designed to be fully eco-friendly, with solar panels, energy-efficient systems, and a waste management program aimed at minimizing the branch's carbon footprint. This branch is pivotal in driving the company's growth and innovations, always adapting to the fast-evolving needs of our customers and setting the highest standards in customer satisfaction and operational efficiency.`
-  };
-  
+import { Progress } from "@/components/ui/progress"
+import { useRouter } from "next/navigation"
 
 const BranchesScreen = () => {
-    const [showModal, setShowModal] = useState<boolean>(false)
-    const onEditBranchClick =() => {}
+
+  const router = useRouter()
+    const onEditBranchClick =() => {
+router.push('/store-branches/create-branch')
+    }
     return(
         <div className="space-y-4 py-3">
         <Card
@@ -31,31 +19,57 @@ const BranchesScreen = () => {
         >
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-10">
-              <h2 className="text-xl font-bold">{sampleBranch.branch_name}</h2>
+              <h2 className="text-xl font-bold">Branches</h2>
             </div>
-            <CardDescription className=" text-balance leading-relaxed">
-              {sampleBranch.description}
-            </CardDescription>
+            <div className=" md:flex gap-3">
+            <Card className="sm:w-72 md:w-60 mb-3">
+                <CardHeader className="pb-2">
+                <CardTitle className="text-3xl">Quickmart</CardTitle>
+                  <CardTitle className="text-2xl">329</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-muted-foreground">
+                    Branches
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="sm:w-72 md:w-60 mb-3">
+                <CardHeader className="pb-2">
+                <CardTitle className="text-3xl">Naivas</CardTitle>
+                  <CardTitle className="text-2xl">329</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-muted-foreground">
+                   Branches
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="sm:w-72 md:w-60 mb-3">
+                <CardHeader className="pb-2">
+                <CardTitle className="text-3xl">Quickmart</CardTitle>
+                  <CardTitle className="text-2xl">329</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-muted-foreground">
+                    Branches
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </CardHeader>
           <CardFooter>
-            <Button onClick={onEditBranchClick}>Edit Branch</Button>
+            
           </CardFooter>
         </Card>
         <div>
-          <ModalTemplate
-            title="Edit sampleBranch"
-            open={showModal}
-            onOpenChange={setShowModal}
-          >
-            <p>To be edited</p>
-            {/* <EditStore data={sampleBranch} setShowModal={setShowModal} /> */}
-          </ModalTemplate>
+          
         </div>
         <div className="space-y-3">
           <Card>
             <CardHeader className="pb-3">
-              <div>
+              <div className=" flex justify-between">
                 <h2 className="text-lg font-semibold">Store Branches</h2>
+                <Button onClick={onEditBranchClick}>Create Branch</Button>
               </div>
             </CardHeader>
             <CardContent>

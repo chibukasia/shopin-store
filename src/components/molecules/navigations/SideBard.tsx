@@ -49,7 +49,7 @@ const SideBar = () => {
   const router = useRouter()
 
   useEffect(() =>{
-    axiosClient.get('/login/me').then((data) => console.log(data.data)).catch((error) => {
+    axiosClient.get('/login/me').then(() => {}).catch((error) => {
       authRedirect(router, error)
     })
   },[router])

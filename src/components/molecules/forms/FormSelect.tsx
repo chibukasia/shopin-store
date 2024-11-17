@@ -1,11 +1,12 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { InputProps } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ReactNode } from "react"
 import { Control, useForm } from "react-hook-form"
 
 interface FormSelectProps extends InputProps {
     name: string
-    label: string
+    label?: ReactNode
     description?: string
     control: Control<any>
     items: {

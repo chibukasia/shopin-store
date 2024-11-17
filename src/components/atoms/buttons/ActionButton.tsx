@@ -5,11 +5,12 @@ interface ActionButtonProps extends ButtonProps {
   loading?: boolean;
   title: string;
   loaderText?: string;
+  width?: string
 }
 const ActionButton = (props: ActionButtonProps) => {
-  const { title, loading, loaderText, onClick, type } = props;
+  const { title, loading, loaderText, onClick, type, width } = props;
   return (
-    <Button disabled={loading} onClick={onClick} type={type} className="bg-primary">
+    <Button disabled={loading} onClick={onClick} type={type} className={`bg-primary ${width}`}>
       {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       {loading ? loaderText : title}
     </Button>

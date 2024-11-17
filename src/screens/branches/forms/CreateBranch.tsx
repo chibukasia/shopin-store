@@ -1,47 +1,20 @@
-"use client"
-import FormInput from "@/components/molecules/forms/FormInput"
-import { Form } from "@/components/ui/form"
-import { useForm } from "react-hook-form"
-import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
-import usePlacesAutocomplete, {GeoReturn, getGeocode, getLatLng} from 'use-places-autocomplete'
-
-
-const CreateBranchForm = () => {
-    const [selected, setSelected] = useState(null)
-
-    const form = useForm()
-
-    const {ready, value, setValue, suggestions: {status, data}, clearSuggestions} = usePlacesAutocomplete()
-    return(
-<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
-        <div>
-            <h2>
-                Create store form
-            </h2>
-            <div>
-                <Form {...form}>
-                    <form>
-                        <FormInput control={form.control} name="name" label="Branch Name" placeholder="Enter store branch excact name"/>
-                        <FormInput control={form.control} name="location" label="Branch location" placeholder="Enter branch location"/>
-                        <PlacesAutocomplete setSelected={setSelected}/>
-                        <Map
-      style={{width: '70vw', height: '70vh'}}
-      defaultCenter={selected ?? {lat: 0.0236, lng: 37.9062}}
-      defaultZoom={10}
-      gestureHandling={'greedy'}
-      disableDefaultUI={true}
-    />
-    {selected && <Marker position={selected}/>}
-                    </form>
-                </Form>
-            </div>
-        </div>
-        </APIProvider>
-    )
-}
-
-export default CreateBranchForm
-
+"use client";
+import FormInput from "@/components/molecules/forms/FormInput";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Control, useForm } from "react-hook-form";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
 import {
   Combobox,
   ComboboxInput,
@@ -49,35 +22,242 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-
 import "@reach/combobox/styles.css";
 import { ChangeEvent, useState } from "react";
-import { Input } from "@/components/ui/input";
+import ActionButton from "@/components/atoms/buttons/ActionButton";
+import FormTextarea from "@/components/molecules/forms/FormTextArea";
+import FormSelect from "@/components/molecules/forms/FormSelect";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
-const PlacesAutocomplete = ({setSelected}) => {
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const hours = [
+  { label: "00:00", value: "00:00" },
+  { label: "01:00", value: "01:00" },
+  { label: "02:00", value: "02:00" },
+  { label: "03:00", value: "03:00" },
+  { label: "04:00", value: "04:00" },
+  { label: "05:00", value: "05:00" },
+  { label: "06:00", value: "06:00" },
+  { label: "07:00", value: "07:00" },
+  { label: "08:00", value: "08:00" },
+  { label: "09:00", value: "09:00" },
+  { label: "10:00", value: "10:00" },
+  { label: "11:00", value: "11:00" },
+  { label: "12:00", value: "12:00" },
+  { label: "13:00", value: "13:00" },
+  { label: "14:00", value: "14:00" },
+  { label: "15:00", value: "15:00" },
+  { label: "16:00", value: "16:00" },
+  { label: "17:00", value: "17:00" },
+  { label: "18:00", value: "18:00" },
+  { label: "19:00", value: "19:00" },
+  { label: "20:00", value: "20:00" },
+  { label: "21:00", value: "21:00" },
+  { label: "22:00", value: "22:00" },
+  { label: "23:00", value: "23:00" },
+];
+
+const CreateBranchForm = () => {
+  const [selected, setSelected] = useState({ lat: 0.0236, lng: 37.9062 });
+  const [scheduleType, setScheduleType] = useState<string>("all day");
+
+  const form = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
+  return (
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
+      <div>
+        <h2>Create store form</h2>
+        <div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <div className="md:flex gap-2 w-full">
+                <div className="md:w-1/2">
+                  <FormInput
+                    control={form.control}
+                    name="name"
+                    label="Branch Name"
+                    placeholder="Enter store branch excact name"
+                  />
+                </div>
+                <div className="md:w-1/2">
+                  <FormInput
+                    control={form.control}
+                    name="county"
+                    label="County"
+                    placeholder="Enter branch county"
+                  />
+                </div>
+              </div>
+
+              <div className="md:flex gap-2 w-full">
+                <div className="md:w-1/2">
+                  <FormSelect
+                    items={[]}
+                    control={form.control}
+                    name="user_id"
+                    label={<p>Select Branch Manager/Admin (<span className="text-xs italic">Create a branch admin first</span>)</p>}
+                    placeholder="Select the branch manager/admin"
+                  />
+                </div>
+                <div className="md:w-1/2">
+                  <FormSelect
+                    items={[]}
+                    control={form.control}
+                    name="user_id"
+                    label={<p>Select Store (<span className="text-xs italic">Create a store first if empty</span>)</p>}
+                    placeholder="Select store to associate with branch"
+                  />
+                </div>
+              </div>
+              <div className="md:flex gap-2 w-full">
+                <div className="md:w-1/2">
+                  <PlacesAutocomplete setSelected={setSelected} />
+                  <FormTextarea
+                    control={form.control}
+                    name="description"
+                    label="Branch description"
+                    placeholder="Give brief description  of the branch"
+                  />
+                </div>
+                <div className="md:w-1/2">
+                  <div className="py-3">
+                    <p>Branch Operation Hours</p>
+                    <RadioGroup
+                      defaultValue="all day"
+                      onValueChange={(value) => setScheduleType(value)}
+                      className="py-3"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="all day" id="all-day" />
+                        <Label htmlFor="all-day">
+                          24/7 - All day and night
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="custom" id="custom" />
+                        <Label htmlFor="custom">Custom</Label>
+                      </div>
+                    </RadioGroup>
+                    {scheduleType === "custom" ? (
+                      <div className="grid px-4">
+                        {days.map((day) => (
+                          <div
+                            className="flex w-80 justify-between items-center"
+                            key={day}
+                          >
+                            <p>{day}</p>
+                            <div className="flex gap-3">
+                              <FormSelect
+                                control={form.control}
+                                name={`${day.toLowerCase()}_opens`}
+                                items={hours}
+                              />
+                              <FormSelect
+                                control={form.control}
+                                name={`${day.toLowerCase()}_closes`}
+                                items={hours}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center py-4">
+                <ActionButton
+                  type="submit"
+                  title="Submit"
+                  loading={true}
+                  loaderText="Submitting..."
+                  width="w-64"
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <div className="mt-4">
+                  <Map
+                    key={selected.lng + selected.lat}
+                    // style={{ width: "50vw", height: "50vh", marginTop: "20px" }}
+                    className="sm:w-screen lg:w-[90vw] sm:h-80 lg:h-[60vh]"
+                    defaultCenter={selected}
+                    defaultZoom={10}
+                    zoom={10}
+                    gestureHandling={"greedy"}
+                    disableDefaultUI={true}
+                  >
+                    {selected && <Marker position={selected} />}
+                  </Map>
+                </div>
+              </div>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </APIProvider>
+  );
+};
+
+export default CreateBranchForm;
+
+interface ComboProps {
+  setSelected: (selected: { lng: number; lat: number }) => void;
+}
+const PlacesAutocomplete = (props: ComboProps) => {
+  const { setSelected } = props;
   const {
     ready,
     value,
     suggestions: { status, data },
     setValue,
+    clearSuggestions,
   } = usePlacesAutocomplete({ callbackName: "placesloaded" });
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setValue(e.target.value);
   };
 
   const handleSelect = async (val: string) => {
     setValue(val, false);
-    const results = await getGeocode({address: val})
+    const results = await getGeocode({ address: val });
 
-    const {lat, lng} = getLatLng(results[0])
-    setSelected({lat, lng})
+    const { lat, lng } = getLatLng(results[0]);
+    setSelected({ lat, lng });
+    clearSuggestions();
   };
 
   return (
     <Combobox onSelect={handleSelect} aria-labelledby="demo">
-      <Input value={value} onChange={handleInput} disabled={!ready} />
-      <ComboboxInput value={value} onChange={handleInput} disabled />
+      <p className="pb-2">
+        Branch Address (
+        <span className="text-xs italic">
+          Select from suggestion for accurate proximity
+        </span>
+        )
+      </p>
+
+      <ComboboxInput
+        // {...field}
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        className="focus:ring-purple-500 focus:border-primary w-full border border-muted rounded-lg p-2"
+      />
+
       <ComboboxPopover>
         <ComboboxList>
           {status === "OK" &&
