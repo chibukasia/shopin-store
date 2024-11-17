@@ -1,10 +1,7 @@
 "use client";
 import FormInput from "@/components/molecules/forms/FormInput";
-import {
-  Form,
-
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import { useForm, UseFormSetValue } from "react-hook-form";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -18,12 +15,18 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ActionButton from "@/components/atoms/buttons/ActionButton";
 import FormTextarea from "@/components/molecules/forms/FormTextArea";
 import FormSelect from "@/components/molecules/forms/FormSelect";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { branchSchema } from "./branch-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { counties } from "@/utils/data";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserStores } from "@/screens/stores/api";
 
 const days = [
   "Sunday",
@@ -65,16 +68,48 @@ const CreateBranchForm = () => {
   const [selected, setSelected] = useState({ lat: 0.0236, lng: 37.9062 });
   const [scheduleType, setScheduleType] = useState<string>("all day");
 
-  const form = useForm();
+  const {data: stores, isLoading: storesLoading} = useQuery({
+    queryKey: [],
+    queryFn: () => fetchUserStores(),
+  })
+  const form = useForm<z.infer<typeof branchSchema>>({
+    resolver: zodResolver(branchSchema),
+  });
+
+  useEffect(() => {
+    const address = form.getValues('address')
+    if (address) {
+      form.clearErrors("address");
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    if (scheduleType === "all day") {
+      form.setValue("monday_opens", "00:00");
+      form.setValue("monday_closes", "00:00");
+      form.setValue("tuesday_opens", "00:00");
+      form.setValue("tuesday_closes", "00:00");
+      form.setValue("wednesday_opens", "00:00");
+      form.setValue("wednesday_closes", "00:00");
+      form.setValue("thursday_opens", "00:00");
+      form.setValue("thursday_closes", "00:00");
+      form.setValue("friday_opens", "00:00");
+      form.setValue("friday_closes", "00:00");
+      form.setValue("saturday_opens", "00:00");
+      form.setValue("saturday_closes", "00:00");
+      form.setValue("sunday_opens", "00:00");
+      form.setValue("sunday_closes", "00:00");
+    }
+  }, [scheduleType]);
+
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
-
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
-      <div>
-        <h2>Create store form</h2>
+      <div className="mt-4">
+        <h2 className="text-xl font-semibold">Create store </h2>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
@@ -82,17 +117,18 @@ const CreateBranchForm = () => {
                 <div className="md:w-1/2">
                   <FormInput
                     control={form.control}
-                    name="name"
+                    name="branch_name"
                     label="Branch Name"
                     placeholder="Enter store branch excact name"
                   />
                 </div>
                 <div className="md:w-1/2">
-                  <FormInput
+                  <FormSelect
                     control={form.control}
-                    name="county"
+                    items={counties.map((county) => ({label: county.name, value: county.name}))}
+                    name="county_or_province"
                     label="County"
-                    placeholder="Enter branch county"
+                    placeholder="Select branch county"
                   />
                 </div>
               </div>
@@ -100,26 +136,46 @@ const CreateBranchForm = () => {
               <div className="md:flex gap-2 w-full">
                 <div className="md:w-1/2">
                   <FormSelect
-                    items={[]}
+                    items={[{label: 'John Does', value: '738h8r-fvrf4-r42-f'}]}
                     control={form.control}
-                    name="user_id"
-                    label={<p>Select Branch Manager/Admin (<span className="text-xs italic">Create a branch admin first</span>)</p>}
+                    name="branch_admin"
+                    label={
+                      <p>
+                        Select Branch Manager/Admin (
+                        <span className="text-xs italic">
+                          Create a branch admin first
+                        </span>
+                        )
+                      </p>
+                    }
                     placeholder="Select the branch manager/admin"
                   />
                 </div>
                 <div className="md:w-1/2">
                   <FormSelect
-                    items={[]}
+                    items={(stores && stores?.map((store) => ({label: store.store_name, value: store.id}))) ?? []}
                     control={form.control}
-                    name="user_id"
-                    label={<p>Select Store (<span className="text-xs italic">Create a store first if empty</span>)</p>}
+                    name="store"
+                    label={
+                      <p>
+                        Select Store (
+                        <span className="text-xs italic">
+                          Create a store first if empty
+                        </span>
+                        )
+                      </p>
+                    }
                     placeholder="Select store to associate with branch"
                   />
                 </div>
               </div>
               <div className="md:flex gap-2 w-full">
                 <div className="md:w-1/2">
-                  <PlacesAutocomplete setSelected={setSelected} />
+                  <PlacesAutocomplete
+                    setSelected={setSelected}
+                    setAddress={form.setValue}
+                    error={form.formState.errors.address?.message}
+                  />
                   <FormTextarea
                     control={form.control}
                     name="description"
@@ -187,7 +243,6 @@ const CreateBranchForm = () => {
                 <div className="mt-4">
                   <Map
                     key={selected.lng + selected.lat}
-                    // style={{ width: "50vw", height: "50vh", marginTop: "20px" }}
                     className="sm:w-screen lg:w-[90vw] sm:h-80 lg:h-[60vh]"
                     defaultCenter={selected}
                     defaultZoom={10}
@@ -211,9 +266,11 @@ export default CreateBranchForm;
 
 interface ComboProps {
   setSelected: (selected: { lng: number; lat: number }) => void;
+  setAddress: UseFormSetValue<any>;
+  error?: string;
 }
 const PlacesAutocomplete = (props: ComboProps) => {
-  const { setSelected } = props;
+  const { setSelected, setAddress, error } = props;
   const {
     ready,
     value,
@@ -232,6 +289,7 @@ const PlacesAutocomplete = (props: ComboProps) => {
 
     const { lat, lng } = getLatLng(results[0]);
     setSelected({ lat, lng });
+    setAddress("address", val);
     clearSuggestions();
   };
 
@@ -252,7 +310,7 @@ const PlacesAutocomplete = (props: ComboProps) => {
         disabled={!ready}
         className="focus:ring-purple-500 focus:border-primary w-full border border-muted rounded-lg p-2"
       />
-
+      {error && <p className="text-red-500 text-xs">{error}</p>}
       <ComboboxPopover>
         <ComboboxList>
           {status === "OK" &&

@@ -31,8 +31,8 @@ const userSchema = z.object({
 type User = z.infer<typeof userSchema>;
 const roles = [
   {
-    label: "Store Admin",
-    value: "store_admin",
+    label: "Branch Admin",
+    value: "branch_admin",
   },
 ];
 const CreateUserScreen = () => {
