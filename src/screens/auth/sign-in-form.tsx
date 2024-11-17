@@ -7,6 +7,8 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/
 import { Button, TextField } from '@radix-ui/themes'
 import { useRouter } from 'next/navigation'
 import axiosClient from '@/utils/axios-client'
+import { useState } from 'react'
+import ActionButton from '@/components/atoms/buttons/ActionButton'
 
 const formSchema = z.object({
     email: z.string({required_error: 'Email is required'}).email().max(50, {message: 'Maximum character limit reached'}),
@@ -15,6 +17,7 @@ const formSchema = z.object({
 
 export default function SignInForm(){
 
+    const [loading, setloading] = useState<boolean>(false)
     const form = useForm<z.infer <typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -26,6 +29,7 @@ export default function SignInForm(){
     const router = useRouter()
 
     const onSubmit = async (values: z.infer<typeof formSchema>)=>{
+        setloading(true)
         axiosClient.post('login', values)
         .then((data) => {
             localStorage.setItem('token', data.data.token)
@@ -33,6 +37,7 @@ export default function SignInForm(){
             router.push('/')
         })
         .catch((err) => console.log(err))
+        .finally(()=> setloading(false))
         
        
     }
@@ -64,7 +69,7 @@ export default function SignInForm(){
                     </FormItem>
                 )}
                  />
-                <Button type='submit' variant='solid' className='cursor-pointer text-white w-32'>Sign In</Button>
+                <ActionButton title='Sign In' type='submit' className='cursor-pointer text-white w-32' loading={loading}  loaderText='Signing in...'/>
             </form>
         </Form>
     )
