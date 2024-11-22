@@ -29,6 +29,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchUserStores } from "@/screens/stores/api";
 import { createBranch, fetchBranchAdmins } from "../api";
 import { BranchFormData } from "../types";
+import { useToast } from "@/hooks/use-toast";
 
 const days = [
   "Sunday",
@@ -70,6 +71,8 @@ const CreateBranchForm = () => {
   const [selected, setSelected] = useState({ lat: 0.0236, lng: 37.9062 });
   const [scheduleType, setScheduleType] = useState<string>("all day");
 
+  const { toast } = useToast()
+
   const { data: stores, isLoading: storesLoading } = useQuery({
     queryKey: [],
     queryFn: () => fetchUserStores(),
@@ -83,10 +86,22 @@ const CreateBranchForm = () => {
     mutationKey: ['branch'],
     mutationFn: (data: BranchFormData) => createBranch(data),
     onSuccess(data, variables, context) {
+      toast({
+        variant: "default",
+        title: "SUCCESS",
+        duration: 3000,
+        description: "Branch created successfully",
+      })
         console.log(data)
     },
     onError(error, variables, context) {
         console.log(error)
+        toast({
+          variant: "destructive",
+          title: "ERROR",
+          duration: 3000,
+          description: "Error creating branch",
+        })
     },
   })
 

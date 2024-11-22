@@ -4,6 +4,7 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import ReactQueryProvider from "@/lib/providers";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             radius="full"
           >   
               {children}
+              <Toaster />
           </Theme>
         </ReactQueryProvider>
       </body>
