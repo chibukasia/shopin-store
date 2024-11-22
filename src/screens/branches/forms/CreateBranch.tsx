@@ -25,8 +25,10 @@ import { z } from "zod";
 import { branchSchema } from "./branch-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { counties } from "@/utils/data";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchUserStores } from "@/screens/stores/api";
+import { createBranch, fetchBranchAdmins } from "../api";
+import { BranchFormData } from "../types";
 
 const days = [
   "Sunday",
@@ -68,20 +70,40 @@ const CreateBranchForm = () => {
   const [selected, setSelected] = useState({ lat: 0.0236, lng: 37.9062 });
   const [scheduleType, setScheduleType] = useState<string>("all day");
 
-  const {data: stores, isLoading: storesLoading} = useQuery({
+  const { data: stores, isLoading: storesLoading } = useQuery({
     queryKey: [],
     queryFn: () => fetchUserStores(),
+  });
+  const { data: branchAdmins, isLoading: branchAdminsLoading } = useQuery({
+    queryKey: ["branch-admins"],
+    queryFn: fetchBranchAdmins,
+  });
+
+  const {mutate, isPending} = useMutation({
+    mutationKey: ['branch'],
+    mutationFn: (data: BranchFormData) => createBranch(data),
+    onSuccess(data, variables, context) {
+        console.log(data)
+    },
+    onError(error, variables, context) {
+        console.log(error)
+    },
   })
+
   const form = useForm<z.infer<typeof branchSchema>>({
     resolver: zodResolver(branchSchema),
+    defaultValues: {
+      town: '',
+      description: '',
+    }
   });
 
   useEffect(() => {
-    const address = form.getValues('address')
+    const address = form.getValues("address");
     if (address) {
       form.clearErrors("address");
     }
-  }, [selected]);
+  }, [form, selected]);
 
   useEffect(() => {
     if (scheduleType === "all day") {
@@ -100,11 +122,37 @@ const CreateBranchForm = () => {
       form.setValue("sunday_opens", "00:00");
       form.setValue("sunday_closes", "00:00");
     }
-  }, [scheduleType]);
+  }, [form, scheduleType])
+  
+  const onSubmit = (data: z.infer<typeof branchSchema>) => {
 
-
-  const onSubmit = (data: any) => {
-    console.log(data);
+    const formData = {
+      branch_name: data.branch_name,
+      county_or_province: data.county_or_province,
+      address: data.address,
+      town: data.town,
+      description: data.description,
+      user_id: data.branch_admin,
+      store_id: data.store,
+      operational_hours: 
+        {
+          monday_opens: data.monday_opens,
+          monday_closes: data.monday_closes,
+          tuesday_opens: data.tuesday_opens,
+          tuesday_closes: data.tuesday_closes,
+          wednesday_opens: data.wednesday_opens,
+          wednesday_closes: data.wednesday_closes,
+          thursday_opens: data.thursday_opens,
+          thursday_closes: data.thursday_closes,
+          friday_opens: data.friday_opens,
+          friday_closes: data.friday_closes,
+          saturday_closes: data.saturday_closes,
+          saturday_opens: data.saturday_opens,
+          sunday_opens: data.sunday_opens,
+          sunday_closes: data.saturday_closes,
+        }
+    }
+    mutate(formData);
   };
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
@@ -125,7 +173,10 @@ const CreateBranchForm = () => {
                 <div className="md:w-1/2">
                   <FormSelect
                     control={form.control}
-                    items={counties.map((county) => ({label: county.name, value: county.name}))}
+                    items={counties.map((county) => ({
+                      label: county.name,
+                      value: county.name,
+                    }))}
                     name="county_or_province"
                     label="County"
                     placeholder="Select branch county"
@@ -136,7 +187,15 @@ const CreateBranchForm = () => {
               <div className="md:flex gap-2 w-full">
                 <div className="md:w-1/2">
                   <FormSelect
-                    items={[{label: 'John Does', value: '738h8r-fvrf4-r42-f'}]}
+                    items={
+                      (branchAdmins &&
+                        branchAdmins.map((admin) => ({
+                          label: admin.name,
+                          value: admin.id,
+                        }))) ?? [
+                        { label: "John Does", value: "738h8r-fvrf4-r42-f" },
+                      ]
+                    }
                     control={form.control}
                     name="branch_admin"
                     label={
@@ -153,7 +212,14 @@ const CreateBranchForm = () => {
                 </div>
                 <div className="md:w-1/2">
                   <FormSelect
-                    items={(stores && stores?.map((store) => ({label: store.store_name, value: store.id}))) ?? []}
+                    items={
+                      (stores &&
+                        stores?.map((store) => ({
+                          label: store.store_name,
+                          value: store.id,
+                        }))) ??
+                      []
+                    }
                     control={form.control}
                     name="store"
                     label={
@@ -170,16 +236,21 @@ const CreateBranchForm = () => {
                 </div>
               </div>
               <div className="md:flex gap-2 w-full">
-                <div className="md:w-1/2">
+                <div className="md:w-1/2 space-y-2">
                   <PlacesAutocomplete
                     setSelected={setSelected}
                     setAddress={form.setValue}
                     error={form.formState.errors.address?.message}
                   />
+                  <FormInput
+                    control={form.control}
+                    name="town"
+                    label={"Town (Optional)"}
+                  />
                   <FormTextarea
                     control={form.control}
                     name="description"
-                    label="Branch description"
+                    label="Branch description (Optional)"
                     placeholder="Give brief description  of the branch"
                   />
                 </div>
@@ -233,7 +304,7 @@ const CreateBranchForm = () => {
                 <ActionButton
                   type="submit"
                   title="Submit"
-                  // loading={true}
+                  loading={isPending}
                   loaderText="Submitting..."
                   width="w-64"
                 />

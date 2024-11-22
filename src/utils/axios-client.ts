@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosClient = axios.create({
-    baseURL: 'https://shopinn-api.onrender.com/api/',
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://shopinn-api.onrender.com/api/': 'http://localhost:8000/api/',
 })
 
 axiosClient.interceptors.request.use((config) =>{

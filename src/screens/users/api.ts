@@ -1,3 +1,4 @@
+import { UserData } from "@/global-types";
 import axiosClient from "@/utils/axios-client";
 import { EUser } from "@/utils/entities";
 

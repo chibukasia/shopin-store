@@ -22,3 +22,19 @@ export interface Store {
     creater_id: string
   }
   
+  export interface UserData {
+    name: string
+    email: string
+    id: string
+    role: string
+    status: string
+    createdAt: string
+    updatedAt: string
+    creater: {
+      name: string
+      email: string
+      id: string
+      role: string
+      status: string
+    }
+  }  

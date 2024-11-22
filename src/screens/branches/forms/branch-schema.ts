@@ -6,6 +6,7 @@ export const branchSchema = z.object({
     county_or_province: z.string({required_error: 'County is required'}),
     store: z.string({required_error: 'Store is required'}),
     address: z.string({required_error: 'Address required'}),
+    town: z.string().optional(),
     description: z.string().optional(),
     sunday_opens: z.string(),
     sunday_closes: z.string(),

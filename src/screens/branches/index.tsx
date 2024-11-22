@@ -2,7 +2,6 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import StoreBranchesTable from "../stores/tables/StoreBranchesTable"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 import { useRouter } from "next/navigation"
 
 const BranchesScreen = () => {
