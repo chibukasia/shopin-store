@@ -13,6 +13,7 @@ import { ArrowLeft } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EUser } from "@/utils/entities";
 import { authRedirect } from "@/utils";
+import { toast } from "react-toastify";
 
 const userSchema = z.object({
   firstName: z.string({ required_error: "First name is required" }),
@@ -48,10 +49,12 @@ const CreateUserScreen = () => {
     mutationFn: (user: EUser) => createUser(user),
     onSuccess(){
       queryClient.invalidateQueries({queryKey: ['user', 'users']})
+      toast.success("Branch admin created successfully")
       router.push("/users");
     },
     onError(error: any){
       console.log(error)
+      toast.error("Error creating branch admin")
       authRedirect(router, error)
     }
   })
@@ -66,9 +69,9 @@ const CreateUserScreen = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center pt-8">
-      {isError && <p>Could not create user</p>}
+      {isError && <p className="text-red-500 italic">Could not create user</p>}
       <h2 className="text-xl text-center pb-5 font-semibold">
-        Create New User
+        Create New Branch Admin
       </h2>
       <Form {...form}>
         <form

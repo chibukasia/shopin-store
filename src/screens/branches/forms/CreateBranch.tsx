@@ -25,11 +25,12 @@ import { z } from "zod";
 import { branchSchema } from "./branch-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { counties } from "@/utils/data";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserStores } from "@/screens/stores/api";
 import { createBranch, fetchBranchAdmins } from "../api";
 import { BranchFormData } from "../types";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const days = [
   "Sunday",
@@ -71,8 +72,8 @@ const CreateBranchForm = () => {
   const [selected, setSelected] = useState({ lat: 0.0236, lng: 37.9062 });
   const [scheduleType, setScheduleType] = useState<string>("all day");
 
-  const { toast } = useToast()
-
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const { data: stores, isLoading: storesLoading } = useQuery({
     queryKey: [],
     queryFn: () => fetchUserStores(),
@@ -86,22 +87,13 @@ const CreateBranchForm = () => {
     mutationKey: ['branch'],
     mutationFn: (data: BranchFormData) => createBranch(data),
     onSuccess(data, variables, context) {
-      toast({
-        variant: "default",
-        title: "SUCCESS",
-        duration: 3000,
-        description: "Branch created successfully",
-      })
-        console.log(data)
+      toast.success("Branch created successfully")
+      queryClient.invalidateQueries({queryKey: ['branches']})
+      router.push("/store-branches")
     },
     onError(error, variables, context) {
         console.log(error)
-        toast({
-          variant: "destructive",
-          title: "ERROR",
-          duration: 3000,
-          description: "Error creating branch",
-        })
+        toast.error("Error creating branch")
     },
   })
 

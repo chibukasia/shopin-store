@@ -1,7 +1,8 @@
 import DataTable from "@/components/molecules/tables/DataTable";
 import { userColumns } from "./tables/userColumns";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { getBranchAdmins } from "./api";
+import { useMemo } from "react";
 
 const seacrhItems = [
     {
@@ -19,12 +20,25 @@ const seacrhItems = [
 ]
 const UsersScreen = () => {
   const { data: users, isLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const response = await axios.get("http://localhost:3003/users/");
-      return response.data;
-    },
+    queryKey: ["branch-admins"],
+    queryFn: getBranchAdmins
   });
+
+  const memoizedUsers = useMemo(() => {
+    if (!users) return []
+
+    return users.map((user: any) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      start_date: user.createdAt,
+      branch_name: user.branch[0] ? user.branch[0].branch_name: "--",
+      branch_address: user.branch[0] ? user.branch[0].address: "--",
+      store_name: user.branch[0] ? user.branch[0].store.store_name: "--"
+    }))
+  }, [users])
   return (
     <div>
       {isLoading ? (
@@ -32,7 +46,7 @@ const UsersScreen = () => {
       ) : (
         <DataTable
           columns={userColumns}
-          data={users ?? []}
+          data={memoizedUsers ?? []}
           searchTypes={
             seacrhItems
           }

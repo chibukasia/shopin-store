@@ -38,7 +38,7 @@ export default function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [searchType, setSearchType] = useState<string>('')
+  const [searchType, setSearchType] = useState<string>(searchTypes ? searchTypes[0].value : '')
 
   const table = useReactTable({
     data,

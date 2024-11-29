@@ -5,6 +5,8 @@ import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import ReactQueryProvider from "@/lib/providers";
 import { Toaster } from "@/components/ui/toaster";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,16 +20,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <head>
-      <script
-  defer
-  src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=placesloaded`}
-></script>
+        <script
+          defer
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=placesloaded`}
+        ></script>
       </head>
-      
+
       <body className={inter.className} suppressHydrationWarning={true}>
         <ReactQueryProvider>
           <Theme
@@ -36,9 +37,20 @@ export default function RootLayout({
             panelBackground="solid"
             scaling="100%"
             radius="full"
-          >   
-              {children}
-              <Toaster />
+          >
+            {children}
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
           </Theme>
         </ReactQueryProvider>
       </body>

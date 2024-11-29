@@ -11,6 +11,7 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { updateStoreDetails } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void }) => {
   const [selectedLogo, setSelectedLogo] = useState<File[]>();
@@ -32,13 +33,14 @@ const EditStore = (props: { data: Store, setShowModal: (show: boolean) =>void })
     mutationFn: (data: any) => updateStoreDetails(data.id, data.data),
     onSuccess(){
       queryClient.invalidateQueries({queryKey: ['store-details', 'stores', props.data.id,]})
+      toast.success("Store updated successfully")
       setUploading(false)
       props.setShowModal(false)
     },
     onError(error: any){
       console.log(error)
       setUploading(false)
-      alert('Could not update store')
+      toast.error('Could not update store')
     }
   })
   const onSubmit = async (data: any) => {

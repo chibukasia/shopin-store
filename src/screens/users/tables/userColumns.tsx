@@ -3,12 +3,20 @@ import { ColumnDef } from "@tanstack/react-table";
 import { BiEditAlt } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
 import { BsEyeFill } from "react-icons/bs";
+import dayjs from "dayjs"
+import {capitalize} from "lodash"
+import Badge from "@/components/atoms/badge/Badge";
 
 interface UserTableColumns {
   id: string;
   name: string;
   email: string;
   role: string;
+  start_date: Date;
+  status: string;
+  branch_name: string;
+  store_name: string;
+  branch_address: string;
 }
 
 export const userColumns: ColumnDef<UserTableColumns>[] = [
@@ -29,27 +37,42 @@ export const userColumns: ColumnDef<UserTableColumns>[] = [
     header: ({ column }) => (
       <DataTableHeaderColumn column={column} title="Role" />
     ),
+    cell: ({row}) => {
+      return<p>{capitalize(row.original.role.replace('_', ' '))}</p>
+    }
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableHeaderColumn column={column} title="Status" />
+    ),
+    cell: ({row}) => {
+      return<Badge title={row.original.status} bgColor="red-500"/>
+    }
   },
   {
     accessorKey: "start_date",
     header: ({ column }) => (
       <DataTableHeaderColumn column={column} title="Start Date" />
     ),
+    cell: ({row}) => {
+      return<p>{dayjs(row.original.start_date).format("DD/MM/YYYY")}</p>
+    }
   },
   {
-    accessorKey: "branch.name",
+    accessorKey: "branch_name",
     header: ({ column }) => (
       <DataTableHeaderColumn column={column} title="Branch" />
     ),
   },
   {
-    accessorKey: "branch.location",
+    accessorKey: "branch_address",
     header: ({ column }) => (
       <DataTableHeaderColumn column={column} title="Location" />
     ),
   },
   {
-    accessorKey: "store.name",
+    accessorKey: "store_name",
     header: ({ column }) => (
       <DataTableHeaderColumn column={column} title="Store" />
     ),

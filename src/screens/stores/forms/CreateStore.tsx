@@ -13,6 +13,7 @@ import uploadFile, { authRedirect } from "@/utils";
 import { createStore } from "../api";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const storeSchema = z.object({
   store_name: z
@@ -46,11 +47,13 @@ const CreateStoreScreen = () => {
     mutationKey: ['store'],
     mutationFn: (data) => createStore(data),
     onSuccess(){
+      toast.success("Store created successfully")
       queryClient.invalidateQueries({queryKey: ['stores', 'store']})
       router.push('/stores')
     },
     onError(error){
       console.log(error);
+      toast.error("Error creating store")
       authRedirect(router, error as any)
     }
   })
