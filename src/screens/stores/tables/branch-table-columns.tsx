@@ -1,3 +1,4 @@
+import Badge from "@/components/atoms/badge/Badge";
 import DataTableHeaderColumn from "@/components/molecules/tables/DataTableColumnHaeder";
 import { ColumnDef } from "@tanstack/react-table";
 import { BiEditAlt } from "react-icons/bi";
@@ -11,6 +12,7 @@ interface StoreBranchData {
   name: string;
   location: string;
   users: number;
+  status: string;
 }
 
 export const storeBranchesTableColumns: ColumnDef<StoreBranchData>[] = [
@@ -49,6 +51,7 @@ export const storeBranchesTableColumns: ColumnDef<StoreBranchData>[] = [
     header: ({column}) =>(
       <DataTableHeaderColumn column={column} title="Status"/>
     ),
+    cell: ({row}) => <Badge title={row.original.status} bgColor="red-500"/>
   },
   {
     accessorKey: "user.name",

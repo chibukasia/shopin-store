@@ -26,6 +26,7 @@ const userSchema = z.object({
     .min(6, { message: "Password must contain at least 6 characters" })
     .max(15, { message: "Password too long" }),
   role: z.string({ required_error: "Role is required" }),
+  status: z.string().optional()
 });
 
 type User = z.infer<typeof userSchema>;
@@ -38,6 +39,9 @@ const roles = [
 const CreateUserScreen = () => {
   const form = useForm<User>({
     resolver: zodResolver(userSchema),
+    defaultValues: {
+      status: "ACTIVE"
+    }
   });
   const formRef = useRef(null);
   const router = useRouter();
@@ -65,6 +69,7 @@ const CreateUserScreen = () => {
       email: data.email,
       role: data.role,
       password: data.password,
+      status: data.status as string
     })
   };
   return (

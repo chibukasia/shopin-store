@@ -9,6 +9,7 @@ export interface Store {
     createdAt: string
     updatedAt: string
     user: User
+    branch: any[]
   }
   
   export interface User {

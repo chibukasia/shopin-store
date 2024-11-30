@@ -30,7 +30,7 @@ const DataTableHeaderColumn = <TData, TValue>({
             size="sm"
             className="-ml-3 h-8 data-[state=open]:bg-accent"
           >
-            <span>{title}</span>
+            <span className="font-semibold">{title}</span>
             {column.getIsSorted() === "desc" ? (
               <IoArrowDown className="ml-2 h-4 w-4" />
             ) : column.getIsSorted() === "asc" ? (

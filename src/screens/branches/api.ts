@@ -10,3 +10,8 @@ export const createBranch = async (data: any) => {
     const response = await axiosClient.post('/branches/', data)
     return response.data
 }
+
+export const fetchUserBranches = async () => {
+    const response = await axiosClient.get('/branches/user-branches/')
+    return response.data
+}

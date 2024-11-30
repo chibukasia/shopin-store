@@ -3,4 +3,5 @@ export interface EUser {
     email: string
     role: string
     password: string
+    status: string
 }
