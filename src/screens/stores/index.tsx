@@ -45,12 +45,12 @@ const StoresScreen = () => {
           />
         ))}
         <Card
-          className="bg-muted/90 rounded-xl sm:w-full md:w-52 cursor-pointer hover:brightness-50"
+          className="flex items-center justify-center bg-primary rounded-xl sm:w-full md:w-52 cursor-pointer hover:brightness-50"
           onClick={handleAddStore}
         >
-          <CardContent className="flex flex-col justify-center items-center h-full">
-            <FaPlus size={72} className="text-teal-500" />
-            <p className="">Add Store</p>
+          <CardContent className="pt-3 h-full ">
+            <FaPlus size={72} className="text-white" />
+            <p className="text-white text-lg font-bold pt-2">Add Store</p>
           </CardContent>
         </Card>
       </div>

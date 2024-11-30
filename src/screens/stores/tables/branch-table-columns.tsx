@@ -1,6 +1,9 @@
 import DataTableHeaderColumn from "@/components/molecules/tables/DataTableColumnHaeder";
 import { ColumnDef } from "@tanstack/react-table";
+import { BiEditAlt } from "react-icons/bi";
+import { BsEyeFill } from "react-icons/bs";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 
 interface StoreBranchData {
@@ -12,21 +15,45 @@ interface StoreBranchData {
 
 export const storeBranchesTableColumns: ColumnDef<StoreBranchData>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "branch_name",
     header: ({column}) =>(
       <DataTableHeaderColumn column={column} title="Name"/>
     ),
   },
   {
-    accessorKey: "location",
+    accessorKey: "branch_code",
     header: ({column}) =>(
-      <DataTableHeaderColumn column={column} title="Location"/>
+      <DataTableHeaderColumn column={column} title="Branch Code"/>
     ),
   },
   {
-    accessorKey: "users",
+    accessorKey: "county_or_province",
     header: ({column}) =>(
-      <DataTableHeaderColumn column={column} title="Users"/>
+      <DataTableHeaderColumn column={column} title="County"/>
+    ),
+  },
+  {
+    accessorKey: "town",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Town"/>
+    ),
+  },
+  {
+    accessorKey: "address",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Address"/>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Status"/>
+    ),
+  },
+  {
+    accessorKey: "user.name",
+    header: ({column}) =>(
+      <DataTableHeaderColumn column={column} title="Branch Admin"/>
     ),
   },
   {
@@ -43,9 +70,12 @@ export const storeBranchesTableColumns: ColumnDef<StoreBranchData>[] = [
         // add delete logic
       }
       return (
-        <div className="flex w-24 justify-between">
-          <MdEdit size={24} onClick={onEditClick}/>
-          <FaRegTrashAlt color="red" size={24} onClick={onDeleteClick}/>
+        <div className="flex w-24 ">
+          <div className="flex space-x-3">
+          <BsEyeFill className="cursor-pointer text-primary" size={"20"} />
+          <BiEditAlt className="cursor-pointer text-primary" size={"20"} />
+          <FaTrashCan className="cursor-pointer text-red-500" size={"20"} />
+        </div>
         </div>
       );
     },

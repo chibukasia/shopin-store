@@ -7,7 +7,7 @@ const Badge = (props: IBadgeProps) => {
 
     const { title, bgColor="black", color } = props
     return(
-        <div className={`p-1 w-28 bg-black rounded-xl`} >
+        <div className={`p-1 w-28 bg-black rounded-xl flex items-center justify-center`} >
             <p className={`${color? `text-${color}` : "text-white"} font-semibold text-center text-xs`}>{title}</p>
         </div>
     )

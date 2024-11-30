@@ -72,7 +72,7 @@ router.push('/store-branches/create-branch')
               </div>
             </CardHeader>
             <CardContent>
-              <StoreBranchesTable />
+              {/* <StoreBranchesTable /> */}
             </CardContent>
           </Card>
         </div>

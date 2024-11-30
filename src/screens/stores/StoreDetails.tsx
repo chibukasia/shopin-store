@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { authRedirect } from "@/utils";
+import Badge from "@/components/atoms/badge/Badge";
 
 const StoreDetailsScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,11 +48,12 @@ const StoreDetailsScreen = () => {
   return (
     <div className="space-y-4 py-3">
       <Card
-        className="sm:col-span-2 sm:w-full md:w-full lg:w-3/4"
+        className="sm:col-span-2 sm:w-full md:w-full "
         x-chunk="dashboard-05-chunk-0"
       >
         <CardHeader className="pb-3">
-          <div className="flex items-center space-x-10">
+          <div className=" sm:items-start md:items-center space-y-1">
+            <div className="flex space-x-10 items-center pb-6">
             <Image
               width={100}
               height={100}
@@ -59,9 +61,19 @@ const StoreDetailsScreen = () => {
               alt={store.store_name}
               className="rounded-lg"
             />
-            <h2 className="text-xl font-bold">{store.store_name}</h2>
+            <h2 className="text-2xl font-bold">{store.store_name}</h2>
+            </div>
+            
+            <div>
+              <p className="text-xl font-bold text-balance">Branches: {store.branch_count}</p>
+            </div>
+            <div className="flex space-x-3">
+              <p className="text-xl font-bold text-balance">Status: </p>
+              <Badge title={store.status} />
+            </div>
           </div>
-          <CardDescription className=" text-balance leading-relaxed">
+          <CardDescription className="text-balance leading-relaxed">
+          <p className="text-xl font-bold">About </p>
             {store.description}
           </CardDescription>
         </CardHeader>
@@ -78,7 +90,7 @@ const StoreDetailsScreen = () => {
           <EditStore data={store} setShowModal={setShowModal} />
         </ModalTemplate>
       </div>
-      <div className="space-y-3 sm:w-full md:w-full lg:w-3/4">
+      <div className="space-y-3 sm:w-full md:w-full ">
         <Card>
           <CardHeader className="pb-3">
             <div>
@@ -86,7 +98,7 @@ const StoreDetailsScreen = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <StoreBranchesTable />
+            <StoreBranchesTable id={store.id} />
           </CardContent>
         </Card>
       </div>

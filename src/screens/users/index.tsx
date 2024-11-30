@@ -34,9 +34,9 @@ const UsersScreen = () => {
       role: user.role,
       status: user.status,
       start_date: user.createdAt,
-      branch_name: user.branch[0] ? user.branch[0].branch_name: "--",
-      branch_address: user.branch[0] ? user.branch[0].address: "--",
-      store_name: user.branch[0] ? user.branch[0].store.store_name: "--"
+      branch_name: user.branch?.branch_name ?? "--",
+      branch_address: user.branch?.address ?? "--",
+      store_name: user.branch?.store?.store_name ?? "--"
     }))
   }, [users])
   return (
