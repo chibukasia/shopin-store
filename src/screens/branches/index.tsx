@@ -58,7 +58,7 @@ const BranchesScreen = () => {
           </div>
           <div className=" md:flex gap-3">
             {stores.map((store) => (
-              <Card className="sm:w-72 md:w-60 mb-3">
+              <Card className="sm:w-72 md:w-60 mb-3" key={store.id}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-3xl">{store.store_name}</CardTitle>
                 <CardTitle className="text-2xl">{store.branch.length}</CardTitle>
