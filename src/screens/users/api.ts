@@ -9,6 +9,5 @@ export const createUser = async (data: EUser) => {
 
 export const getBranchAdmins = async () => {
     const response = await axiosClient.get('/users/user-branch-admins')
-    console.log(response.data)
     return response.data
 }

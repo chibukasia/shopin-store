@@ -18,6 +18,7 @@ const formSchema = z.object({
 export default function SignInForm(){
 
     const [loading, setloading] = useState<boolean>(false)
+    const [error, setError] = useState<string>('')
     const form = useForm<z.infer <typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -32,17 +33,26 @@ export default function SignInForm(){
         setloading(true)
         axiosClient.post('login', values)
         .then((data) => {
-            localStorage.setItem('token', data.data.token)
-            form.reset()
-            router.push('/')
+            if(data.data.role === 'store_admin'){
+                localStorage.setItem('token', data.data.token)
+                form.reset()
+                router.push('/')
+            }else{
+                setError('Invalid email or password')
+                return
+            }
+            
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+            setError(err.response.data.error)
+        })
         .finally(()=> setloading(false))
         
        
     }
     return(
         <Form {...form}>
+            {error && <p className='text-red-500'>{error}</p>}
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 w-full md:w-96'>
                 <FormField 
                 control={form.control}

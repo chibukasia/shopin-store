@@ -1,4 +1,5 @@
 export interface Store {
+    _count: any
     id: string
     store_name: string
     country: string
