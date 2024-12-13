@@ -6,6 +6,7 @@ import { BsEyeFill } from "react-icons/bs";
 import dayjs from "dayjs"
 import {capitalize} from "lodash"
 import Badge from "@/components/atoms/badge/Badge";
+import Link from "next/link";
 
 interface UserTableColumns {
   id: string;
@@ -83,9 +84,6 @@ export const userColumns: ColumnDef<UserTableColumns>[] = [
       <DataTableHeaderColumn column={column} title="Actions" />
     ),
     cell: ({ row }) => {
-        const onViewUswerDetails = () => {
-            alert(row.original.id)
-        }
         const oneEditUser = () => {
             alert(row.original.id)
         }
@@ -94,7 +92,7 @@ export const userColumns: ColumnDef<UserTableColumns>[] = [
         }
       return (
         <div className="flex space-x-3">
-          <BsEyeFill className="cursor-pointer text-primary" size={"20"} onClick={onViewUswerDetails}/>
+          <Link href={`/users/${row.original.id}/`}><BsEyeFill className="cursor-pointer text-primary" size={"20"}/></Link>
           <BiEditAlt className="cursor-pointer text-primary" size={"20"} onClick={oneEditUser}/>
           <FaTrashCan className="cursor-pointer text-red-500" size={"20"} onClick={onDeleteUser}/>
         </div>
